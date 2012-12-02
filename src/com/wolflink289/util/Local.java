@@ -10,8 +10,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * String localization utility.
@@ -24,13 +22,15 @@ public class Local {
 	static private final String default_locale = "enUS";
 	static private final String default_path = "file://%/locale/";
 	static private final String default_strings = "strings.txt";
+	static private final String ENCODING = "UTF8";
 	
 	// Variables
 	static private URL load_path = null;
 	static private String load_locale = null;
+	static private String load_strings = null;
 	static private HashMap<String, String> lcal_string = null;
 	
-	static private final ReentrantLock sync = new ReentrantLock();
+	static private volatile boolean sync_r = false;
 	
 	// Static Method
 	static {
@@ -46,6 +46,8 @@ public class Local {
 			System.err.println("Cannot set locale: " + Locale.getDefault().getLanguage().toLowerCase() + Locale.getDefault().getCountry().toUpperCase());
 			load_locale = default_locale.replace("/", "");
 		}
+		
+		load_strings = default_strings;
 	}
 	
 	// Setup Methods
@@ -117,6 +119,25 @@ public class Local {
 	}
 	
 	/**
+	 * Set the path to the localized strings file.
+	 * 
+	 * @param path the path.
+	 */
+	static public void setStringPath(String path) {
+		if (path == null) path = default_strings;
+		load_strings = path;
+	}
+	
+	/**
+	 * Get the path to the localized strings file.
+	 * 
+	 * @return the path to the strings file.
+	 */
+	static public String getStringPath() {
+		return load_strings;
+	}
+	
+	/**
 	 * Refresh the localized strings.
 	 */
 	static public void refresh() {
@@ -132,9 +153,11 @@ public class Local {
 	 */
 	static public String get(String key) {
 		// Sync
-		try {
-			sync.tryLock(Long.MAX_VALUE, TimeUnit.DAYS);
-		} catch (InterruptedException e) {}
+		while (sync_r) {
+			try {
+				Thread.sleep(1); // FUCK REENTRANTLOCK
+			} catch (Exception ex) {}
+		}
 		
 		// Load
 		if (lcal_string == null) load();
@@ -172,9 +195,14 @@ public class Local {
 	 */
 	static public void put(String key, String val) {
 		// Sync
-		try {
-			sync.tryLock(Long.MAX_VALUE, TimeUnit.DAYS);
-		} catch (InterruptedException e) {}
+		while (sync_r) {
+			try {
+				Thread.sleep(1); // FUCK REENTRANTLOCK
+			} catch (Exception ex) {}
+		}
+		
+		// Load
+		if (lcal_string == null) load();
 		
 		// Put
 		lcal_string.put(key, val);
@@ -188,9 +216,14 @@ public class Local {
 	 */
 	static public void putDefault(String key, String val) {
 		// Sync
-		try {
-			sync.tryLock(Long.MAX_VALUE, TimeUnit.DAYS);
-		} catch (InterruptedException e) {}
+		while (sync_r) {
+			try {
+				Thread.sleep(1); // FUCK REENTRANTLOCK
+			} catch (Exception ex) {}
+		}
+		
+		// Load
+		if (lcal_string == null) load();
 		
 		// Check
 		if (lcal_string.containsKey(key)) return;
@@ -279,41 +312,42 @@ public class Local {
 	 */
 	static private void load() {
 		// Sync
+		sync_r = true;
+		
+		// Load
 		try {
-			sync.lock();
+			// Load - Strings
+			lcal_string = new HashMap<String, String>();
 			
-			// Load
-			try {
-				// Load - Strings
-				lcal_string = new HashMap<String, String>();
-				
-				InputStream strings = getStream(default_strings);
-				if (strings != null) {
-					BufferedReader stringr = new BufferedReader(new InputStreamReader(strings));
-					String line;
-					while ((line = stringr.readLine()) != null) {
-						line = line.trim();
-						
-						// Comments/Ignore
-						if (line.isEmpty()) continue;
-						if (line.startsWith("#")) continue;
-						
-						// Read
-						int splid = line.indexOf(":");
-						if (splid == -1) continue; // Unreadable line
-							
-						// Put
-						lcal_string.put(line.substring(0, splid).trim(), line.substring(splid + 1).trim());
-					}
+			InputStream strings = getStream(load_strings);
+			if (strings != null) {
+				BufferedReader stringr = new BufferedReader(new InputStreamReader(strings));
+				String line;
+				while ((line = stringr.readLine()) != null) {
+					// Encoding
+					if (ENCODING != null) line = new String(line.getBytes(), ENCODING);
 					
-					stringr.close();
-					line = null;
+					// Trim
+					line = line.trim();
+					
+					// Comments/Ignore
+					if (line.isEmpty()) continue;
+					if (line.startsWith("#")) continue;
+					
+					// Read
+					int splid = line.indexOf(":");
+					if (splid == -1) continue; // Unreadable line
+						
+					// Put
+					lcal_string.put(line.substring(0, splid).trim(), line.substring(splid + 1).trim());
 				}
-			} catch (Exception ex) {}
-			
-			// Release
-		} finally {
-			sync.unlock();
-		}
+				
+				stringr.close();
+				line = null;
+			}
+		} catch (Exception ex) {}
+		
+		// Sync
+		sync_r = false;
 	}
 }

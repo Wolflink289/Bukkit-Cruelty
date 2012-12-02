@@ -1,15 +1,16 @@
 ###########################
-# Locale File             #
+# Setup Locale File       #
 # Language: English       #
 # Region: United States   #
 ###########################
 
 # Locale Information
 locale.language: English
-locale.region: United States
-locale.code: enUS
+locale.region: United Kingdoms
+locale.code: enGB
 
 ###########################
 
-# Error Messages #
-error.denied: Unknown command. Type "help" for help.
+# Windows #
+win.locale.title: Select Localization
+win.locale.button.next: Use Localization

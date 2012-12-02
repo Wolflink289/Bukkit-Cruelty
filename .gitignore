@@ -5,3 +5,9 @@
 
 #Java
 bin/
+
+#Mac OS X
+.DS_Store
+
+#Misc
+/Cruelty/

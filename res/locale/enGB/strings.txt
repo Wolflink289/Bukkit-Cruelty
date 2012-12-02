@@ -8,3 +8,8 @@
 locale.language: English
 locale.region: United Kingdoms
 locale.code: enGB
+
+###########################
+
+# Error Messages #
+error.denied: Unknown command. Type "help" for help.
