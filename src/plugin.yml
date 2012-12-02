@@ -6,11 +6,11 @@ version: 1.0.0
 main: com.wolflink289.bukkit.cruelty.CrueltyPlugin
 
 commands:
-    cdos:
-        description: Initiate a fake Do
-        usage: /crash [Player] (Player)...
-        aliases: [wabcrash]
-        permission: wolfaboot.attack.crash
+    crueldos:
+        description: Initiate a fake DoS attack on a one or more players
+        usage: /crueldos [Player] (Player)...
+        aliases: [cdos]
+        permission: cruelty.attack.crash
         permission-message: Unknown command. Type "help" for help.
     
 permissions:
