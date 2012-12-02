@@ -1,0 +1,15 @@
+###########################
+# Setup Locale File       #
+# Language: Italian       #
+# Region: Italy           #
+###########################
+
+# Locale Information
+locale.language: Italiano
+locale.region: Italia
+locale.code: itIT
+
+###########################
+
+# Error Messages #
+error.denied: //TODO Unknown command. Type "help" for help.

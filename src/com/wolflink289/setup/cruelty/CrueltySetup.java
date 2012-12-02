@@ -2,6 +2,7 @@ package com.wolflink289.setup.cruelty;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 import com.wolflink289.util.Config;
 import com.wolflink289.util.Local;
 import com.wolflink289.util.Path;
@@ -15,6 +16,8 @@ public class CrueltySetup {
 	}
 	
 	static public void main(String[] args) {
+		System.out.println(Locale.ITALY.getCountry() + Locale.ITALIAN.getLanguage());
+		
 		// Load Locale
 		Local.setStringPath("strings_wiz.txt");
 		Local.refresh();

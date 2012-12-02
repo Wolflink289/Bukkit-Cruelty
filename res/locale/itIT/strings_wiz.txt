@@ -1,0 +1,16 @@
+###########################
+# Setup Locale File       #
+# Language: Italian       #
+# Region: Italy           #
+###########################
+
+# Locale Information
+locale.language: Italiano
+locale.region: Italia
+locale.code: itIT
+
+###########################
+
+# Windows #
+win.locale.title: Selezionare la lingua
+win.locale.button.next: Usate Italiano

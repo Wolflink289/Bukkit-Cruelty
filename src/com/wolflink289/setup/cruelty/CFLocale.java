@@ -2,6 +2,8 @@ package com.wolflink289.setup.cruelty;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -19,16 +21,50 @@ import javax.swing.SpringLayout;
 import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import com.wolflink289.setup.cruelty.gui.WXListItem;
 import com.wolflink289.setup.cruelty.gui.WXListRenderer;
 import com.wolflink289.util.Local;
 
+/**
+ * Configuration for locale.
+ * 
+ * @author Wolflink289
+ */
 public class CFLocale {
+	
 	static private JFrame window;
 	static private JButton next;
+	static private JList localelist;
 	static private String[] locales;
 	static private String locale;
+	static private int lastlocale;
 	
-	// Get a list of all the locales
+	/**
+	 * A list display object for a locale.
+	 * 
+	 * @author Wolflink289
+	 */
+	static private class CFLocaleItem extends WXListItem {
+		public final String locale;
+		
+		public CFLocaleItem(String locale) {
+			super(locale, locale);
+			this.locale = locale;
+			
+			// Set Localized Info
+			String[] info = CFLocale.info(locale);
+			set(info[0], info[1]);
+		}
+		
+		@Override
+		public String toString() {
+			return locale;
+		}
+	}
+	
+	/**
+	 * Load the list of locales.
+	 */
 	static private void load() {
 		try {
 			// Load Locales
@@ -59,7 +95,12 @@ public class CFLocale {
 		}
 	}
 	
-	// Scan a string locale file for the locale information.
+	/**
+	 * Get the information about a locale.
+	 * 
+	 * @param locale the locale.
+	 * @return the locale info.
+	 */
 	static String[] info(String locale) {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(CFLocale.class.getResourceAsStream("/locale/" + locale + "/strings_wiz.txt"), "UTF-8"));
@@ -92,7 +133,14 @@ public class CFLocale {
 		}
 	}
 	
+	/**
+	 * Update the window state with locale information.
+	 * 
+	 * @param locale the locale name.
+	 */
 	static void update(String locale) {
+		if (locale.equals(CFLocale.locale)) return;
+		
 		CFLocale.locale = locale;
 		
 		Local.setLocale(locale);
@@ -102,7 +150,9 @@ public class CFLocale {
 		next.setText(Local.get("win.locale.button.next"));
 	}
 	
-	// Public
+	/**
+	 * Show the locale selection window.
+	 */
 	static public void show() {
 		// Load
 		load();
@@ -121,7 +171,7 @@ public class CFLocale {
 		// Build GUI
 		window = new JFrame(Local.get("win.locale.title"));
 		next = new JButton(Local.get("win.locale.button.next"));
-		JList localelist = new JList(items);
+		localelist = new JList(items);
 		JScrollPane jsp = new JScrollPane(localelist);
 		SpringLayout spl = new SpringLayout();
 		
@@ -132,7 +182,20 @@ public class CFLocale {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if (!e.getValueIsAdjusting()) return;
-				CFLocale.update(((JList) e.getSource()).getModel().getElementAt(((JList) e.getSource()).getSelectedIndex()).toString());
+				if (((JList) e.getSource()).getSelectedIndex() == -1) {
+					localelist.setSelectedIndex(lastlocale);
+					return;
+				}
+				
+				lastlocale = ((JList) e.getSource()).getSelectedIndex();
+				CFLocale.update(((JList) e.getSource()).getModel().getElementAt(lastlocale).toString());
+			}
+		});
+		
+		localelist.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				e.consume();
 			}
 		});
 		
@@ -140,6 +203,7 @@ public class CFLocale {
 		boolean ul = false;
 		for (int i = 0; i < locales.length; i++) {
 			if (Local.getLocale().equals(locales[i])) {
+				lastlocale = i;
 				localelist.setSelectedIndex(i);
 				CFLocale.locale = locales[i];
 				ul = true;
@@ -150,6 +214,7 @@ public class CFLocale {
 		if (!ul) {
 			for (int i = 0; i < locales.length; i++) {
 				if (locales[i].equals("enUS")) {
+					lastlocale = i;
 					localelist.setSelectedIndex(i);
 					CFLocale.locale = locales[i];
 					break;
@@ -198,13 +263,16 @@ public class CFLocale {
 		
 		// Clean
 		spl = null;
-		localelist = null;
 		jsp = null;
 		items = null;
 	}
 	
+	/**
+	 * Destroy the locale selection window.
+	 */
 	static public void kill() {
 		next = null;
+		localelist = null;
 		
 		window.dispose();
 		window = null;

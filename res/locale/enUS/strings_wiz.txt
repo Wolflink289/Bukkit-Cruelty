@@ -12,5 +12,5 @@ locale.code: enUS
 ###########################
 
 # Windows #
-win.locale.title: Select Localization
-win.locale.button.next: Use Localization
+win.locale.title: Select Language
+win.locale.button.next: Use Language
