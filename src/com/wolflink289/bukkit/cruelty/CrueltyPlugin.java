@@ -1,5 +1,4 @@
 package com.wolflink289.bukkit.cruelty;
 
-public class Cruelty {
-
+public class CrueltyPlugin {
 }

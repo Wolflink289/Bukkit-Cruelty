@@ -3,3 +3,8 @@
 # Language: English       #
 # Region: United Kingdoms #
 ###########################
+
+# Locale Information
+locale.language: English
+locale.region: United Kingdoms
+locale.code: enGB

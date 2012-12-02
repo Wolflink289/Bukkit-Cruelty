@@ -3,3 +3,8 @@
 # Language: English       #
 # Region: United States   #
 ###########################
+
+# Locale Information
+locale.language: English
+locale.region: United States
+locale.code: enUS

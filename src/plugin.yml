@@ -1,0 +1,62 @@
+name: Cruelty
+description: Rid of players using non-standard methods.
+author: Wolflink289
+
+version: 1.0.0
+main: com.wolflink289.bukkit.cruelty.CrueltyPlugin
+
+commands:
+    cdos:
+        description: Initiate a fake Do
+        usage: /crash [Player] (Player)...
+        aliases: [wabcrash]
+        permission: wolfaboot.attack.crash
+        permission-message: Unknown command. Type "help" for help.
+    
+permissions:
+    cruelty.*:
+        description: Gives access to all Cruelty features and protections.
+        default: op
+        children:
+            cruelty.attack.*: true
+            cruelty.immune.*: true
+    cruelty.attack.*:
+        description: Gives access to all Cruelty "attack" features.
+        default: op
+        children:
+            cruelty.attack.dos: true
+            cruelty.attack.crash: true
+            cruelty.attack.feign: true
+            cruelty.attack.freeze: true
+    cruelty.attack.dos:
+        description: Allows the user to initiate a fake DoS attack on a player.
+        default: op
+    cruelty.attack.crash:
+        description: Allows the user to crash a player.
+        default: op
+    cruelty.attack.feign:
+        description: Allows the user to fake a player's death.
+        default: op
+    cruelty.attack.freeze:
+        description: Allows the user to freeze a player's client.
+        default: op
+    cruelty.immune.*:
+        description: Gives access to all Cruelty immunities.
+        default: op
+        children:
+            cruelty.immune.dos: true
+            cruelty.immune.crash: true
+            cruelty.immune.feign: true
+            cruelty.immune.freeze: true
+    cruelty.immune.dos:
+        description: The user becomes immune to the DoS attack.
+        default: op
+    cruelty.immune.crash:
+        description: The user becomes immune to the crash attack.
+        default: op
+    cruelty.immune.feign:
+        description: The user becomes immune to the feign attack.
+        default: op
+    cruelty.immune.freeze:
+        description: The user becomes immune to the freeze attack.
+        default: op
