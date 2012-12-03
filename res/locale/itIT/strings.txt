@@ -19,7 +19,17 @@ error.save: Impossibile salvare il file:
 message.enabled: Cruelty abilitato.
 message.disabled: Cruelty disabilitato.
 
+message.action.freeze: //TODO Froze ${COUNT} players: ${PLAYERS}
+message.action.feign: //TODO Freigned ${COUNT} players: ${PLAYERS}
+message.action.crash: //TODO Crash ${COUNT} players: ${PLAYERS}
+
+message.usage.freeze: //TODO &cUsage: &f/cruelfreeze &7[Player,Player]
+message.usage.feign: //TODO &cUsage: &f/cruelfeign &7[Player,Player]
+message.usage.crash: //TODO &cUsage: &f/cruelcrash &7[Player,Player]
+
 # Prefix Messages #
 prefix.attack.success: &a
 prefix.attack.immune: &4
 prefix.attack.not-found: &c
+
+prefix.message: &6

@@ -54,7 +54,7 @@ public class CrueltyStrings {
 		PFX_NOT_FOUND = Local.get("prefix.attack.not-found").replace('&', '\247');
 		
 		PFX_MSG = Local.get("prefix.message").replace('&', '\247');
-		if (!PFX_MSG.isEmpty()) PFX_MSG += " ";
+		if (!ChatColor.stripColor(PFX_MSG).isEmpty()) PFX_MSG += " ";
 		
 		BukkitSender.setMessagePrefix(PFX_MSG);
 	}

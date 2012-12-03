@@ -19,6 +19,14 @@ error.save: Unable to save file:
 message.enabled: Enabled Cruelty.
 message.disabled: Disabled Cruelty.
 
+message.action.freeze: Froze ${COUNT} players: ${PLAYERS}
+message.action.feign: Freigned ${COUNT} players: ${PLAYERS}
+message.action.crash: Crash ${COUNT} players: ${PLAYERS}
+
+message.usage.freeze: &cUsage: &f/cruelfreeze &7[Player,Player]
+message.usage.feign: &cUsage: &f/cruelfeign &7[Player,Player]
+message.usage.crash: &cUsage: &f/cruelcrash &7[Player,Player]
+
 # Prefix Messages #
 prefix.attack.success: &a
 prefix.attack.immune: &4

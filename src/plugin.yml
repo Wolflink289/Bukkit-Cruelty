@@ -7,20 +7,20 @@ main: com.wolflink289.bukkit.cruelty.CrueltyPlugin
 
 commands:
     crueldos:
-        description: Initiate a fake DoS attack on a one or more players
-        usage: /crueldos [Player] (Player)...
+        description: Initiate a fake DoS attack on a one or more players.
+        usage: /crueldos [Player,Player]
         aliases: [cdos]
         permission: cruelty.attack.dos
         permission-message: Unknown command. Type "help" for help.
     cruelcrash:
         description: Crash one or more players' clients.
-        usage: /cruelcrash [Player] (Player)...
+        usage: /cruelcrash [Player,Player]
         aliases: [ccrash, cc]
         permission: cruelty.attack.crash
         permission-message: Unknown command. Type "help" for help.
     cruelfeign:
         description: Fake one or more players' deaths.
-        usage: /cruelfeign [Player] (Player)...
+        usage: /cruelfeign [Player,Player]
         aliases: [cfeign, cfe]
         permission: cruelty.attack.feign
         permission-message: Unknown command. Type "help" for help.
