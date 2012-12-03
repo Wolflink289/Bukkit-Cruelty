@@ -6,11 +6,16 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -64,25 +69,80 @@ public class CFLocale {
 	}
 	
 	/**
+	 * List directory contents for a resource folder. Not recursive.
+	 * This is basically a brute-force implementation.
+	 * Works for regular files and also JARs.
+	 * 
+	 * @author Greg Briggs
+	 * @param clazz Any java class that lives in the same place as the resources you want.
+	 * @param path Should end with "/", but not start with one.
+	 * @return Just the name of each member item, not the full paths.
+	 * @throws URISyntaxException
+	 * @throws IOException
+	 */
+	static private String[] getResourceListing(Class<?> clazz, String path) throws URISyntaxException, IOException {
+		URL dirURL = clazz.getClassLoader().getResource(path);
+		if (dirURL != null && dirURL.getProtocol().equals("file")) {
+			/* A file path: easy enough */
+			return new File(dirURL.toURI()).list();
+		}
+		
+		if (dirURL == null) {
+			/* 
+			 * In case of a jar file, we can't actually find a directory.
+			 * Have to assume the same jar as clazz.
+			 */
+			String me = clazz.getName().replace(".", "/") + ".class";
+			dirURL = clazz.getClassLoader().getResource(me);
+		}
+		
+		if (dirURL.getProtocol().equals("file")) {
+			String nd = URLDecoder.decode(dirURL.toURI().getPath(), "UTF-8");
+			nd = nd.substring(0, nd.lastIndexOf("com/wolflink289/setup/cruelty/"));
+			path = path.substring(1);
+			
+			return new File(nd, path).list();
+		}
+		
+		if (dirURL.getProtocol().equals("jar")) {
+			/* A JAR path */
+			String jarPath = dirURL.getPath().substring(5, dirURL.getPath().indexOf("!")); // strip out only the JAR file
+			JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
+			Enumeration<JarEntry> entries = jar.entries(); // gives ALL entries in jar
+			HashSet<String> result = new HashSet<String>(); // avoid duplicates in case it is a subdirectory
+			while (entries.hasMoreElements()) {
+				String name = entries.nextElement().getName();
+				if (name.startsWith(path)) { // filter according to the path
+					String entry = name.substring(path.length());
+					int checkSubdir = entry.indexOf("/");
+					if (checkSubdir >= 0) {
+						// if it is a subdirectory, we just return the directory name
+						entry = entry.substring(0, checkSubdir);
+					}
+					result.add(entry);
+				}
+			}
+			return result.toArray(new String[result.size()]);
+		}
+		
+		throw new UnsupportedOperationException("Cannot list files for URL " + dirURL);
+	}
+	
+	/**
 	 * Load the list of locales.
 	 */
 	static private void load() {
 		try {
 			// Load Locales
+			String[] list = getResourceListing(CFLocale.class, "locale/");
 			ArrayList<String> locales = new ArrayList<String>();
-			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources("locale/");
 			
 			// Enumerate
-			while (urls.hasMoreElements()) {
-				URL el = urls.nextElement();
-				String[] list = new File(URLDecoder.decode(el.getFile(), "UTF-8")).list();
-				
-				for (int i = 0; i < list.length; i++) {
-					if (list[i].contains(".")) continue;
-					if (Thread.currentThread().getContextClassLoader().getResource("locale/" + list[i] + "/strings.txt") == null) continue;
-					if (Thread.currentThread().getContextClassLoader().getResource("locale/" + list[i] + "/strings_wiz.txt") == null) continue;
-					locales.add(list[i]);
-				}
+			for (int i = 0; i < list.length; i++) {
+				if (list[i].contains(".")) continue;
+				if (Thread.currentThread().getContextClassLoader().getResource("locale/" + list[i] + "/strings.txt") == null) continue;
+				if (Thread.currentThread().getContextClassLoader().getResource("locale/" + list[i] + "/strings_wiz.txt") == null) continue;
+				locales.add(list[i]);
 			}
 			
 			// Set
