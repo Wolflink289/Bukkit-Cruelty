@@ -8,7 +8,7 @@ main: com.wolflink289.bukkit.cruelty.CrueltyPlugin
 commands:
     crueldos:
         description: Initiate a fake DoS attack on a one or more players.
-        usage: /crueldos [Player,Player]
+        usage: Unimplemented
         aliases: [cdos]
         permission: cruelty.attack.dos
         permission-message: Unknown command. Type "help" for help.
