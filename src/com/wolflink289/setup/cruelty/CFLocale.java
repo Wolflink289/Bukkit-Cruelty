@@ -24,6 +24,7 @@ import javax.swing.event.ListSelectionListener;
 import com.wolflink289.setup.cruelty.gui.WXListItem;
 import com.wolflink289.setup.cruelty.gui.WXListRenderer;
 import com.wolflink289.util.Local;
+import com.wolflink289.util.Path;
 
 /**
  * Configuration for locale.
@@ -89,7 +90,7 @@ public class CFLocale {
 			locales.clear();
 			locales = null;
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "The locales cannot be listed!", "Fatal Error", JOptionPane.CANCEL_OPTION | JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "The locales cannot be listed!", Local.get("error.title.fatal"), JOptionPane.CANCEL_OPTION | JOptionPane.ERROR_MESSAGE);
 			ex.printStackTrace();
 			System.exit(0);
 		}
@@ -231,7 +232,7 @@ public class CFLocale {
 				try {
 					CrueltySetup.save();
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "The configuration cannot be saved!", "Fatal Error", JOptionPane.CANCEL_OPTION | JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, Local.get("error.message.save") + " " + new File(Path.getJar(), "Cruelty" + File.separator + "config.txt").getAbsolutePath(), Local.get("error.title.fatal"), JOptionPane.CANCEL_OPTION | JOptionPane.ERROR_MESSAGE);
 					ex.printStackTrace();
 					System.exit(0);
 				}

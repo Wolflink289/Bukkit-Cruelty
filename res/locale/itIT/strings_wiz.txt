@@ -14,3 +14,8 @@ locale.code: itIT
 # Windows #
 win.locale.title: Selezionare la lingua
 win.locale.button.next: Usate Italiano
+
+# Errors #
+error.title.normal: Errore
+errot.title.fatal: Errore Fatale
+error.message.save: Impossibile salvare il file: 

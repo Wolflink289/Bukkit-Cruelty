@@ -91,6 +91,9 @@ public class Config {
 		if (file == null) file = last;
 		if (file == null) throw new NullPointerException("The file cannot be null");
 		
+		// Create Directories
+		file.getParentFile().mkdirs();
+		
 		// Save
 		BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 		Iterator<String> keyi = keys.keySet().iterator();
@@ -132,7 +135,7 @@ public class Config {
 	public HashMap<String, String> asMap() {
 		return keys;
 	}
-
+	
 	/**
 	 * Get a configuration entry as a string.
 	 * 

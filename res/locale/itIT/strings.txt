@@ -13,3 +13,13 @@ locale.code: itIT
 
 # Error Messages #
 error.denied: //TODO Unknown command. Type "help" for help.
+error.save: Impossibile salvare il file: 
+
+# Regular Messages #
+message.enabled: Cruelty abilitato.
+message.disabled: Cruelty disabilitato.
+
+# Prefix Messages #
+prefix.attack.success: &a
+prefix.attack.immune: &4
+prefix.attack.not-found: &c

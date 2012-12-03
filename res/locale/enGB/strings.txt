@@ -13,3 +13,15 @@ locale.code: enGB
 
 # Error Messages #
 error.denied: Unknown command. Type "help" for help.
+error.save: Unable to save file: 
+
+# Regular Messages #
+message.enabled: Enabled Cruelty.
+message.disabled: Disabled Cruelty.
+
+# Prefix Messages #
+prefix.attack.success: &a
+prefix.attack.immune: &4
+prefix.attack.not-found: &c
+
+prefix.message: &6

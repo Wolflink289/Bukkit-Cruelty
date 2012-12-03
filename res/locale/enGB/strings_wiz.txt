@@ -14,3 +14,8 @@ locale.code: enGB
 # Windows #
 win.locale.title: Select Language
 win.locale.button.next: Use Language
+
+# Errors #
+error.title.normal: Error
+errot.title.fatal: Fatal Error
+error.message.save: Unable to save file: 

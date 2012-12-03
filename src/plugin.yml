@@ -26,7 +26,7 @@ commands:
         permission-message: Unknown command. Type "help" for help.
     cruelfreeze:
         description: Freeze one or more players' clients.
-        usage: /cruelfreeze [Player] (Player)...
+        usage: /cruelfreeze [Player,Player]
         aliases: [cfreeze, cfr]
         permission: cruelty.attack.freeze
         permission-message: Unknown command. Type "help" for help.

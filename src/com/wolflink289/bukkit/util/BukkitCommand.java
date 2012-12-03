@@ -39,6 +39,13 @@ public abstract class BukkitCommand {
 		return true;
 	}
 	
+	/**
+	 * Clear all the registered commands.
+	 */
+	static public void clear() {
+		commands.clear();
+	}
+	
 	// As Instance
 	/**
 	 * Handle the command.
