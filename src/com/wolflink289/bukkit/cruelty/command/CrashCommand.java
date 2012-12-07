@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import com.wolflink289.apis.bukkit.Cruelty;
 import com.wolflink289.bukkit.cruelty.CrueltyPermissions;
+import com.wolflink289.bukkit.cruelty.CrueltyPlugin;
 import com.wolflink289.bukkit.cruelty.CrueltyStrings;
 import com.wolflink289.bukkit.util.BukkitCommand;
 import com.wolflink289.bukkit.util.BukkitSender;
@@ -14,7 +15,7 @@ public class CrashCommand extends BukkitCommand {
 	@Override
 	protected void handle(BukkitSender sender, String[] params) {
 		if (!CrueltyPermissions.CRASH.canUse(sender)) {
-			sender.sendMessage(CrueltyStrings.ERROR_NO_PERMISSION);
+			CrueltyPlugin.noPermission(sender);
 			return;
 		}
 		

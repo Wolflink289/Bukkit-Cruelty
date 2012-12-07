@@ -9,6 +9,7 @@ import com.wolflink289.bukkit.cruelty.command.CrashCommand;
 import com.wolflink289.bukkit.cruelty.command.FeignCommand;
 import com.wolflink289.bukkit.cruelty.command.FreezeCommand;
 import com.wolflink289.bukkit.util.BukkitCommand;
+import com.wolflink289.bukkit.util.BukkitSender;
 import com.wolflink289.util.Config;
 import com.wolflink289.util.Local;
 import com.wolflink289.util.Path;
@@ -63,5 +64,20 @@ public class CrueltyPlugin extends JavaPlugin {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String alias, String[] params) {
 		return BukkitCommand.call(sender, command, alias, params);
+	}
+	
+	// Static Methods
+	/**
+	 * Send the no permission message to a sender.
+	 * 
+	 * @param sender the sender.
+	 */
+	static public void noPermission(BukkitSender sender) {
+		String message = CrueltyStrings.ERROR_NO_PERMISSION;
+		if (message.equals("${HIDDEN}")) {
+			sender.getSender().getServer().dispatchCommand(sender.getSender(), "/^ CRUELTY NO PERMISSION MESSAGE ^\\ #" + Math.random());
+		} else {
+			sender.getSender().sendMessage(message);
+		}
 	}
 }

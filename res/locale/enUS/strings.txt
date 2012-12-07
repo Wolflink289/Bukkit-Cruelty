@@ -12,7 +12,7 @@ locale.code: enUS
 ###########################
 
 # Error Messages #
-error.denied: Unknown command. Type "help" for help.
+error.denied: ${HIDDEN}
 error.save: Unable to save file: 
 
 # Regular Messages #
@@ -20,7 +20,7 @@ message.enabled: Enabled Cruelty.
 message.disabled: Disabled Cruelty.
 
 message.action.freeze: Froze ${COUNT} players: ${PLAYERS}
-message.action.feign: Freigned ${COUNT} players: ${PLAYERS}
+message.action.feign: Feigned ${COUNT} players: ${PLAYERS}
 message.action.crash: Crash ${COUNT} players: ${PLAYERS}
 
 message.usage.freeze: &cUsage: &f/cruelfreeze &7[Player,Player]

@@ -12,20 +12,20 @@ locale.code: itIT
 ###########################
 
 # Error Messages #
-error.denied: //TODO Unknown command. Type "help" for help.
+error.denied: ${HIDDEN}
 error.save: Impossibile salvare il file: 
 
 # Regular Messages #
 message.enabled: Cruelty abilitato.
 message.disabled: Cruelty disabilitato.
 
-message.action.freeze: //TODO Froze ${COUNT} players: ${PLAYERS}
-message.action.feign: //TODO Freigned ${COUNT} players: ${PLAYERS}
-message.action.crash: //TODO Crash ${COUNT} players: ${PLAYERS}
+message.action.freeze: ${COUNT} giocatori congelati: ${PLAYERS}
+message.action.feign: ${COUNT} giocatori finta: ${PLAYERS}
+message.action.crash: ${COUNT} giocatori caduto: ${PLAYERS}
 
-message.usage.freeze: //TODO &cUsage: &f/cruelfreeze &7[Player,Player]
-message.usage.feign: //TODO &cUsage: &f/cruelfeign &7[Player,Player]
-message.usage.crash: //TODO &cUsage: &f/cruelcrash &7[Player,Player]
+message.usage.freeze: &cUso: &f/cruelfreeze &7[giocatore,giocatore]
+message.usage.feign: &cUso: &f/cruelfeign &7[giocatore,giocatore]
+message.usage.crash: &cUso: &f/cruelcrash &7[giocatore,giocatore]
 
 # Prefix Messages #
 prefix.attack.success: &a
