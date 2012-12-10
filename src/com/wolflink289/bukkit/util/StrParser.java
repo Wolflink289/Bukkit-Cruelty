@@ -24,6 +24,17 @@ public class StrParser {
 		 * @return the list split into a string array.
 		 */
 		static public String[] parse(String csl) {
+			if (csl.trim().equals("*")) {
+				Player[] li = Bukkit.getOnlinePlayers();
+				String[] lit = new String[li.length];
+				for (int i = 0; i < li.length; i++) {
+					lit[i] = li[i].getName() + ", ";
+				}
+				
+				li = null;
+				return lit;
+			}
+			
 			if (!csl.contains(",")) return new String[] { csl };
 			return csl.split(",");
 		}
@@ -35,6 +46,10 @@ public class StrParser {
 		 * @return the list as player objects.
 		 */
 		static public Player[] parseAsPlayers(String csl) {
+			if (csl.trim().equals("*")) {
+				return Bukkit.getOnlinePlayers();
+			}
+			
 			String[] players = parse(csl);
 			Player[] playersp = new Player[players.length];
 			
