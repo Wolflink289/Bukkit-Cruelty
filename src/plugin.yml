@@ -31,10 +31,16 @@ commands:
         permission: cruelty.attack.freeze
         permission-message: Unknown command. Type "help" for help.
     cruelinventoryfuck:
-        description: Freeze one or more players' clients.
+        description: Fuck with one or more players' inventories.
         usage: /cruelinventoryfuck [Player,Player] [Method]
         aliases: [cif, cifuck, cinvfuck, cruelifuck, cruelinvfuck]
         permission: cruelty.attack.invfuck
+        permission-message: Unknown command. Type "help" for help.
+    cruelspam:
+        description: Spam one or more players' chats.
+        usage: /cruelspam [Player,Player] [Method]
+        aliases: [cs, cspam]
+        permission: cruelty.attack.spam
         permission-message: Unknown command. Type "help" for help.
     
 permissions:
@@ -53,6 +59,7 @@ permissions:
             cruelty.attack.feign: true
             cruelty.attack.freeze: true
             cruelty.attack.invfuck: true
+            cruelty.attack.spam: true
     cruelty.attack.dos:
         description: Allows the user to initiate a fake DoS attack on a player.
         default: op
@@ -66,7 +73,10 @@ permissions:
         description: Allows the user to freeze a player's client.
         default: op
     cruelty.attack.invfuck:
-        description: Allows the user to fuck with another player's inventory.
+        description: Allows the user to fuck with a player's inventory.
+        default: op
+    cruelty.attack.spam:
+        description: Allows the user to spam a player's chat with fake bots.
         default: op
     cruelty.immune.*:
         description: Gives access to all Cruelty immunities.
@@ -91,4 +101,7 @@ permissions:
         default: op
     cruelty.immune.invfuck:
         description: The user becomes immune to having their inventory fucked with.
+        default: op
+    cruelty.immune.spam:
+        description: The user becomes immune to having their chat fake-spammed.
         default: op

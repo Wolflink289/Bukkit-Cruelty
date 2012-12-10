@@ -10,6 +10,7 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import com.wolflink289.bukkit.cruelty.CrueltyPermissions;
+import com.wolflink289.bukkit.cruelty.CrueltyStrings;
 
 /**
  * The API for the Cruelty Bukkit plugin found at http://dev.bukkit.org/server-mods/cruelty/
@@ -54,7 +55,19 @@ public final class Cruelty {
 		 * Fuck with the player's inventory:<br>
 		 * Scramble the player's hotbar.
 		 */
-		INVFUCK_HOTSWAP(CrueltyPermissions.INVENTORY_FUCK);
+		INVFUCK_HOTSWAP(CrueltyPermissions.INVENTORY_FUCK),
+		
+		/**
+		 * Spam a player's chat with fake bots:<br>
+		 * Spam the player for a relatively short amount of time. (45-120 seconds)
+		 */
+		SPAM(CrueltyPermissions.INVENTORY_FUCK),
+		
+		/**
+		 * Spam a player's chat with fake bots:<br>
+		 * Spam the player until they log out.
+		 */
+		SPAM_ENDLESS(CrueltyPermissions.INVENTORY_FUCK);
 		
 		private CrueltyPermissions perm;
 		
@@ -223,7 +236,136 @@ public final class Cruelty {
 			rand = null;
 			return true;
 		}
+		if (attack == Attacks.SPAM || attack == Attacks.SPAM_ENDLESS) {
+			// Immunity Check
+			if (canbeimmune && attack.isImmune(target)) return false;
+			
+			// Action - Spam
+			new Thread() {
+				protected Player target;
+				protected Random rand;
+				protected boolean endless;
+				
+				@Override
+				public void run() {
+					// Create Random
+					rand = new Random(System.currentTimeMillis());
+					
+					// Determine
+					long end = System.currentTimeMillis() + (rand.nextInt(120 - 45) + 45) * 1000;
+					long lag = rand.nextInt(500) + 75;
+					int num = rand.nextInt(15) + 1;
+					String[] bots = new String[num];
+					
+					// Name
+					int scheme = rand.nextInt(3);
+					int misc = 0;
+					for (int i = 0; i < bots.length; i++) {
+						switch (scheme) {
+							default:
+								// Any character goes
+								int botnl = rand.nextInt(16 - 3) + 3;
+								bots[i] = "";
+								for (int j = 0; j < botnl; j++) {
+									bots[i] += SPAM_ACHRS[rand.nextInt(SPAM_ACHRS.length)];
+								}
+								break;
+							case 1:
+								// Ordered, Offset Few
+								misc += rand.nextInt(5) == 2 ? 1 : 2;
+								bots[i] = "Bot_" + misc;
+								break;
+							case 2:
+								// Random Numbers
+								bots[i] = "";
+								for (int j = 0; j < 16; j++) {
+									bots[i] += SPAM_NCHRS[rand.nextInt(SPAM_NCHRS.length)];
+								}
+								break;
+						}
+					}
+					
+					// "Join"
+					for (int i = 0; i < bots.length; i++) {
+						target.sendMessage(CrueltyStrings.MSG_DO_SPAM_JOIN.replace("${NAME}", bots[i]));
+						
+						try {
+							Thread.sleep(lag + (rand.nextInt(100) - 50));
+						} catch (Exception ex) {}
+					}
+					
+					// Loop
+					String[] msgs = new String[bots.length];
+					int len;
+					scheme = rand.nextInt(2);
+					while ((endless || System.currentTimeMillis() < end) && target.isOnline()) {
+						// Create Message
+						for (int i = 0; i < msgs.length; i++) {
+							len = rand.nextInt(100 - 3) + 3;
+							msgs[i] = "";
+							if (scheme == 0) {
+								for (int j = 0; j < len; j++) {
+									msgs[i] += SPAM_NCHRS[rand.nextInt(SPAM_NCHRS.length)];
+								}
+							} else {
+								for (int j = 0; j < len; j++) {
+									msgs[i] += SPAM_ALL[rand.nextInt(SPAM_ALL.length)];
+								}
+							}
+						}
+						
+						// Speak
+						for (int i = 0; i < bots.length; i++) {
+							if (rand.nextInt(bots.length) == 0) continue;
+							
+							// Speak
+							target.sendMessage(CrueltyStrings.MSG_DO_SPAM_SPEAK.replace("${NAME}", bots[i]).replace("${MESSAGE}", msgs[i]));
+							
+							// Wait
+							try {
+								Thread.sleep((lag / 4) + (rand.nextInt(10) - 5));
+							} catch (Exception ex) {}
+						}
+						
+						// Wait
+						try {
+							Thread.sleep((lag / 2) + (rand.nextInt(20) - 10));
+						} catch (Exception ex) {}
+					}
+					
+					// "Leave"
+					if (target.isOnline()) {
+						for (int i = 0; i < bots.length; i++) {
+							target.sendMessage(CrueltyStrings.MSG_DO_SPAM_LEAVE.replace("${NAME}", bots[i]));
+							
+							try {
+								Thread.sleep(lag + (rand.nextInt(100) - 50));
+							} catch (Exception ex) {}
+						}
+					}
+					
+					// Clean
+					rand = null;
+					target = null;
+				}
+				
+				public void start(Player target, boolean endless) {
+					this.target = target;
+					this.endless = endless;
+					setDaemon(true);
+					start();
+				}
+			}.start(target, attack == Attacks.SPAM_ENDLESS);
+			
+			// Clean
+			target = null;
+		}
 		
 		return false;
 	}
+	
+	// Resources
+	static private final char[] SPAM_NCHRS = "0123456789".toCharArray();
+	static private final char[] SPAM_ACHRS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_".toCharArray();
+	static private final char[] SPAM_ALL = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_!@#$%^&*()-+=[]{}\\|;:'\",<.>/?~".toCharArray();
 }
