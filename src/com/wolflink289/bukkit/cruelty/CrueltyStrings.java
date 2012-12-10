@@ -17,10 +17,14 @@ public class CrueltyStrings {
 	static public String MSG_USG_FREEZE;
 	static public String MSG_USG_FEIGN;
 	static public String MSG_USG_CRASH;
+	static public String MSG_USG_IFUCK;
+	
+	static public String MSG_PR1_IFUCK;
 	
 	static public String MSG_ACT_FREEZE;
 	static public String MSG_ACT_FEIGN;
 	static public String MSG_ACT_CRASH;
+	static public String MSG_ACT_IFUCK;
 	
 	// Prefixes
 	static public String PFX_SUCCESS;
@@ -43,9 +47,12 @@ public class CrueltyStrings {
 		Local.putDefault("message.usage.freeze", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelfreeze " + ChatColor.GRAY + "[Player,Player]");
 		Local.putDefault("message.usage.feign", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelfeign " + ChatColor.GRAY + "[Player,Player]");
 		Local.putDefault("message.usage.crash", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelcrash " + ChatColor.GRAY + "[Player,Player]");
+		Local.putDefault("message.usage.invfuck", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelinvfuck " + ChatColor.GRAY + "[Player,Player] [Method]");
+		Local.putDefault("message.param.invfuck.1", ChatColor.RED + "Methods: " + ChatColor.WHITE + "${METHODS}"); // TODO Populate
 		Local.putDefault("message.action.freeze", "Froze ${COUNT} players: ${PLAYERS}");
 		Local.putDefault("message.action.feign", "Feigned ${COUNT} players: ${PLAYERS}");
 		Local.putDefault("message.action.crash", "Crashed ${COUNT} players: ${PLAYERS}");
+		Local.putDefault("message.action.invfuck", "Fucked with ${COUNT} inventories: ${PLAYERS}");
 		Local.putDefault("prefix.attack.success", String.valueOf(ChatColor.GREEN));
 		Local.putDefault("prefix.attack.immune", String.valueOf(ChatColor.DARK_RED));
 		Local.putDefault("prefix.attack.not-found", String.valueOf(ChatColor.RED));
@@ -61,10 +68,14 @@ public class CrueltyStrings {
 		MSG_ACT_FREEZE = Local.get("message.action.freeze");
 		MSG_ACT_FEIGN = Local.get("message.action.feign");
 		MSG_ACT_CRASH = Local.get("message.action.crash");
+		MSG_ACT_IFUCK = Local.get("message.action.invfuck");
+		
+		MSG_PR1_IFUCK = Local.get("message.param.invfuck.1").replace('&', '\247');
 		
 		MSG_USG_FREEZE = Local.get("message.usage.freeze").replace('&', '\247');
 		MSG_USG_FEIGN = Local.get("message.usage.feign").replace('&', '\247');
 		MSG_USG_CRASH = Local.get("message.usage.crash").replace('&', '\247');
+		MSG_USG_IFUCK = Local.get("message.usage.invfuck").replace('&', '\247');
 		
 		PFX_SUCCESS = Local.get("prefix.attack.success").replace('&', '\247');
 		PFX_IMMUNE = Local.get("prefix.attack.immune").replace('&', '\247');

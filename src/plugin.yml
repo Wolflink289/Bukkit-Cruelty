@@ -30,6 +30,12 @@ commands:
         aliases: [cfreeze, cfr]
         permission: cruelty.attack.freeze
         permission-message: Unknown command. Type "help" for help.
+    cruelinventoryfuck:
+        description: Freeze one or more players' clients.
+        usage: /cruelinventoryfuck [Player,Player] [Method]
+        aliases: [cif, cifuck, cinvfuck, cruelifuck, cruelinvfuck]
+        permission: cruelty.attack.invfuck
+        permission-message: Unknown command. Type "help" for help.
     
 permissions:
     cruelty.*:
@@ -46,6 +52,7 @@ permissions:
             cruelty.attack.crash: true
             cruelty.attack.feign: true
             cruelty.attack.freeze: true
+            cruelty.attack.invfuck: true
     cruelty.attack.dos:
         description: Allows the user to initiate a fake DoS attack on a player.
         default: op
@@ -58,6 +65,9 @@ permissions:
     cruelty.attack.freeze:
         description: Allows the user to freeze a player's client.
         default: op
+    cruelty.attack.invfuck:
+        description: Allows the user to fuck with another player's inventory.
+        default: op
     cruelty.immune.*:
         description: Gives access to all Cruelty immunities.
         default: op
@@ -66,6 +76,7 @@ permissions:
             cruelty.immune.crash: true
             cruelty.immune.feign: true
             cruelty.immune.freeze: true
+            cruelty.immune.invfuck: true
     cruelty.immune.dos:
         description: The user becomes immune to the DoS attack.
         default: op
@@ -77,4 +88,7 @@ permissions:
         default: op
     cruelty.immune.freeze:
         description: The user becomes immune to the freeze attack.
+        default: op
+    cruelty.immune.invfuck:
+        description: The user becomes immune to having their inventory fucked with.
         default: op

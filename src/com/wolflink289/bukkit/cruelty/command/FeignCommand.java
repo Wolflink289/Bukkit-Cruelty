@@ -19,7 +19,7 @@ public class FeignCommand extends BukkitCommand {
 			return;
 		}
 		
-		if (params.length == 0) {
+		if (params.length != 1) {
 			sender.getSender().sendMessage(CrueltyStrings.MSG_USG_FEIGN); // Send without prefix
 			return;
 		}

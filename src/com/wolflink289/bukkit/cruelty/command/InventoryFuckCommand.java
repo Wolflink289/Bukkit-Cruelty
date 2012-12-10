@@ -10,18 +10,24 @@ import com.wolflink289.bukkit.util.BukkitCommand;
 import com.wolflink289.bukkit.util.BukkitSender;
 import com.wolflink289.bukkit.util.StrParser;
 
-public class FreezeCommand extends BukkitCommand {
+public class InventoryFuckCommand extends BukkitCommand {
 	
 	@Override
 	protected void handle(BukkitSender sender, String[] params) {
-		if (!CrueltyPermissions.FREEZE.canUse(sender)) {
+		if (!CrueltyPermissions.CRASH.canUse(sender)) {
 			CrueltyPlugin.noPermission(sender);
 			return;
 		}
 		
-		if (params.length != 1) {
-			sender.getSender().sendMessage(CrueltyStrings.MSG_USG_FREEZE); // Send without prefix
+		if (params.length != 2) {
+			sender.getSender().sendMessage(CrueltyStrings.MSG_USG_IFUCK); // Send without prefix
 			return;
+		}
+		
+		Cruelty.Attacks method = getMethod(params[1]);
+		if (method == null) {
+			sender.getSender().sendMessage(CrueltyStrings.MSG_USG_IFUCK); // Send without prefix
+			sender.getSender().sendMessage(CrueltyStrings.MSG_PR1_IFUCK.replace("${METHODS}", "scramble hotswap")); // Send without prefix
 		}
 		
 		StringBuilder sb = new StringBuilder();
@@ -34,21 +40,29 @@ public class FreezeCommand extends BukkitCommand {
 				sb.append(CrueltyStrings.PFX_NOT_FOUND);
 				sb.append(targetsl[i]);
 			} else {
-				boolean ats = attack(targets[i]);
+				boolean ats = attack(method, targets[i]);
 				if (ats) suc++;
 				sb.append(ats ? CrueltyStrings.PFX_SUCCESS : CrueltyStrings.PFX_IMMUNE);
 				sb.append(targets[i].getName());
 			}
 		}
 		
-		sender.sendMessage(CrueltyStrings.MSG_ACT_FREEZE.replace("${COUNT}", String.valueOf(suc)).replace("${PLAYERS}", sb.toString()));
+		sender.sendMessage(CrueltyStrings.MSG_ACT_IFUCK.replace("${COUNT}", String.valueOf(suc)).replace("${PLAYERS}", sb.toString()));
 		
 		sb = null;
 		targets = null;
 		targetsl = null;
+		method = null;
 	}
 	
-	static private boolean attack(Player player) {
-		return Cruelty.attack(Cruelty.Attacks.FREEZE, player);
+	static private Cruelty.Attacks getMethod(String method) {
+		if (method.equals("scramble")) return Cruelty.Attacks.INVFUCK_SCRAMBLE;
+		if (method.equals("hotswap")) return Cruelty.Attacks.INVFUCK_HOTSWAP;
+		
+		return null;
+	}
+	
+	static private boolean attack(Cruelty.Attacks attack, Player player) {
+		return Cruelty.attack(attack, player);
 	}
 }

@@ -8,6 +8,7 @@ import net.minecraft.server.Packet8UpdateHealth;
 import net.minecraft.server.Vec3D;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import com.wolflink289.bukkit.cruelty.CrueltyPermissions;
 
 /**
@@ -41,7 +42,19 @@ public final class Cruelty {
 		/**
 		 * Freeze a player's client indefinately.
 		 */
-		FREEZE(CrueltyPermissions.FREEZE);
+		FREEZE(CrueltyPermissions.FREEZE),
+		
+		/**
+		 * Fuck with the player's inventory:<br>
+		 * Scramble the player's inventory but not hotbar.
+		 */
+		INVFUCK_SCRAMBLE(CrueltyPermissions.INVENTORY_FUCK),
+		
+		/**
+		 * Fuck with the player's inventory:<br>
+		 * Scramble the player's hotbar.
+		 */
+		INVFUCK_HOTSWAP(CrueltyPermissions.INVENTORY_FUCK);
 		
 		private CrueltyPermissions perm;
 		
@@ -148,6 +161,66 @@ public final class Cruelty {
 			
 			// Clean
 			random = null;
+			return true;
+		}
+		if (attack == Attacks.INVFUCK_SCRAMBLE) {
+			// Immunity Check
+			if (canbeimmune && attack.isImmune(target)) return false;
+			
+			// Action - Scramble
+			Random rand = new Random(System.currentTimeMillis());
+			ItemStack[] cont = target.getInventory().getContents();
+			ItemStack[] scont = new ItemStack[cont.length];
+			
+			for (int i = 0; i < 9; i++) {
+				scont[i] = cont[i];
+			}
+			
+			int t = rand.nextInt(scont.length - 9) + 9;
+			for (int i = 9; i < cont.length; i++) {
+				while (scont[t] != null) {
+					t = rand.nextInt(scont.length - 9) + 9;
+				}
+				
+				scont[t] = cont[i];
+			}
+			
+			target.getInventory().setContents(scont);
+			
+			// Clean
+			cont = null;
+			scont = null;
+			rand = null;
+			return true;
+		}
+		if (attack == Attacks.INVFUCK_HOTSWAP) {
+			// Immunity Check
+			if (canbeimmune && attack.isImmune(target)) return false;
+			
+			// Action - Scramble
+			Random rand = new Random(System.currentTimeMillis());
+			ItemStack[] cont = target.getInventory().getContents();
+			ItemStack[] scont = new ItemStack[cont.length];
+			
+			for (int i = 9; i < cont.length; i++) {
+				scont[i] = cont[i];
+			}
+			
+			int t = rand.nextInt(9);
+			for (int i = 0; i < 9; i++) {
+				while (scont[t] != null) {
+					t = rand.nextInt(9);
+				}
+				
+				scont[t] = cont[i];
+			}
+			
+			target.getInventory().setContents(scont);
+			
+			// Clean
+			cont = null;
+			scont = null;
+			rand = null;
 			return true;
 		}
 		
