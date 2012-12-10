@@ -23,9 +23,9 @@ message.action.freeze: ${COUNT} giocatori congelati: ${PLAYERS}
 message.action.feign: ${COUNT} giocatori finta: ${PLAYERS}
 message.action.crash: ${COUNT} giocatori caduto: ${PLAYERS}
 
-message.usage.freeze: &cUso: &f/cruelfreeze &7[giocatore,giocatore]
-message.usage.feign: &cUso: &f/cruelfeign &7[giocatore,giocatore]
-message.usage.crash: &cUso: &f/cruelcrash &7[giocatore,giocatore]
+message.usage.freeze: &cUso: &f/cruelfreeze &7[Giocatore,Giocatore]
+message.usage.feign: &cUso: &f/cruelfeign &7[Giocatore,Giocatore]
+message.usage.crash: &cUso: &f/cruelcrash &7[Giocatore,Giocatore]
 
 # Prefix Messages #
 prefix.attack.success: &a
