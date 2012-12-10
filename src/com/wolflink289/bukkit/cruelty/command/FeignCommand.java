@@ -33,6 +33,9 @@ public class FeignCommand extends BukkitCommand {
 			if (targets[i] == null) {
 				sb.append(CrueltyStrings.PFX_NOT_FOUND);
 				sb.append(targetsl[i]);
+			} else if (!targets[i].isOnline()) {
+				sb.append(CrueltyStrings.PFX_NOT_FOUND);
+				sb.append(targetsl[i]);
 			} else {
 				boolean ats = attack(targets[i]);
 				if (ats) suc++;
