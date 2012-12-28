@@ -46,9 +46,7 @@ public class StrParser {
 		 * @return the list as player objects.
 		 */
 		static public Player[] parseAsPlayers(String csl) {
-			if (csl.trim().equals("*")) {
-				return Bukkit.getOnlinePlayers();
-			}
+			if (csl.trim().equals("*")) { return Bukkit.getOnlinePlayers(); }
 			
 			String[] players = parse(csl);
 			Player[] playersp = new Player[players.length];

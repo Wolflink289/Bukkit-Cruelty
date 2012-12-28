@@ -25,8 +25,7 @@ public class DosCommand extends BukkitCommand {
 		}
 		
 		if (params.length != 1) {
-			sender.sendMessage("usaGe: /dos [playah]");
-			//sender.getSender().sendMessage(CrueltyStrings.MSG_USG_DOS); // Send without prefix
+			sender.getSender().sendMessage(CrueltyStrings.MSG_USG_DOS); // Send without prefix
 			return;
 		}
 		
@@ -50,8 +49,7 @@ public class DosCommand extends BukkitCommand {
 			}
 		}
 		
-		sender.sendMessage("Dos'd.");
-		//sender.sendMessage(CrueltyStrings.MSG_ACT_DOS.replace("${COUNT}", String.valueOf(suc)).replace("${PLAYERS}", sb.toString()));
+		sender.sendMessage(CrueltyStrings.MSG_ACT_DOS.replace("${COUNT}", String.valueOf(suc)).replace("${PLAYERS}", sb.toString()));
 		
 		sb = null;
 		targets = null;

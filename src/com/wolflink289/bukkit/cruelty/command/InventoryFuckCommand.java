@@ -18,7 +18,7 @@ public class InventoryFuckCommand extends BukkitCommand {
 			CrueltyPlugin.noPermission(sender);
 			return;
 		}
-
+		
 		if (!Cruelty.Attacks.INVFUCK_HOTSWAP.isEnabled() || !Cruelty.Attacks.INVFUCK_SCRAMBLE.isEnabled()) {
 			sender.getSender().sendMessage(CrueltyStrings.MSG_ERR_DEPEND);
 			return;

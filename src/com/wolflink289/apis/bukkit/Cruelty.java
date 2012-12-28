@@ -1,6 +1,7 @@
 package com.wolflink289.apis.bukkit;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Random;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -24,9 +25,8 @@ public final class Cruelty {
 	static public enum Attacks {
 		/**
 		 * Initiate a simulated denial of service attack on a player.
-		 * @deprecated Unimplemented.
 		 */
-		DOS(CrueltyPermissions.DOS),
+		DOS(CrueltyPermissions.DOS, new Depend[] { Depend.PROTOCOLLIB }),
 		
 		/**
 		 * Crash a player's client.
@@ -34,14 +34,14 @@ public final class Cruelty {
 		CRASH(CrueltyPermissions.CRASH),
 		
 		/**
-		 * Trick the player's client into thinking it's dead.
-		 * <br><b>Dependencies: </b> ProtocolLib
+		 * Trick the player's client into thinking it's dead. <br>
+		 * <b>Dependencies: </b> ProtocolLib
 		 */
 		FEIGN(CrueltyPermissions.FEIGN, new Depend[] { Depend.PROTOCOLLIB }),
 		
 		/**
-		 * Freeze a player's client indefinitely.
-		 * <br><b>Dependencies: </b> ProtocolLib
+		 * Freeze a player's client indefinitely. <br>
+		 * <b>Dependencies: </b> ProtocolLib
 		 */
 		FREEZE(CrueltyPermissions.FREEZE, new Depend[] { Depend.PROTOCOLLIB }),
 		
@@ -92,6 +92,7 @@ public final class Cruelty {
 		
 		/**
 		 * Check if the attack is enabled. The only reason why the attack would be disabled is if a dependency is missing.
+		 * 
 		 * @return If the attack is enabled.
 		 */
 		public boolean isEnabled() {
@@ -144,7 +145,21 @@ public final class Cruelty {
 	 * Attempt to load the dependencies.
 	 */
 	static public void reload() {
+		dossing = new ArrayList<Integer>();
+		
 		CrueltyLibs.reload();
+	}
+	
+	/**
+	 * Disable the hooks used by the plugin.
+	 * 
+	 * @deprecated ONLY THIS PLUGIN SHOULD CALL THIS METHOD.
+	 */
+	static public void disable() {
+		StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+		System.out.println(elements[0].getClassName());
+		
+		CrueltyLibs.disable();
 	}
 	
 	/**
@@ -157,9 +172,7 @@ public final class Cruelty {
 		// Attack
 		if (attack == Attacks.FREEZE) {
 			// Dependency check
-			if (!attack.isEnabled()) {
-				throw new RuntimeException("Missing dependency.");
-			}
+			if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
 			
 			// Immunity + Cast Checks
 			if (canbeimmune && attack.isImmune(target)) return false;
@@ -179,9 +192,7 @@ public final class Cruelty {
 		}
 		if (attack == Attacks.FEIGN) {
 			// Dependency check
-			if (!attack.isEnabled()) {
-				throw new RuntimeException("Missing dependency.");
-			}
+			if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
 			
 			// Immunity + Cast Checks
 			if (canbeimmune && attack.isImmune(target)) return false;
@@ -190,11 +201,11 @@ public final class Cruelty {
 			Packet packet1 = new Packet(38);
 			packet1.getModifier(int.class).write(0, target.getEntityId());
 			packet1.getModifier(byte.class).write(0, (byte) 2);
-
+			
 			Packet packet2 = new Packet(8);
 			packet2.getModifier(int.class).write(0, 0).write(0, 0);
 			packet2.getModifier(float.class).write(0, 0f);
-
+			
 			// Action - Send Packets
 			LProtocol.sendPacket(target, packet1);
 			LProtocol.sendPacket(target, packet2);
@@ -205,6 +216,9 @@ public final class Cruelty {
 			return true;
 		}
 		if (attack == Attacks.CRASH) {
+			// Dependency check
+			if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
+			
 			// Immunity Check
 			if (canbeimmune && attack.isImmune(target)) return false;
 			
@@ -222,6 +236,9 @@ public final class Cruelty {
 			return true;
 		}
 		if (attack == Attacks.INVFUCK_SCRAMBLE) {
+			// Dependency check
+			if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
+			
 			// Immunity Check
 			if (canbeimmune && attack.isImmune(target)) return false;
 			
@@ -252,6 +269,9 @@ public final class Cruelty {
 			return true;
 		}
 		if (attack == Attacks.INVFUCK_HOTSWAP) {
+			// Dependency check
+			if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
+			
 			// Immunity Check
 			if (canbeimmune && attack.isImmune(target)) return false;
 			
@@ -282,6 +302,9 @@ public final class Cruelty {
 			return true;
 		}
 		if (attack == Attacks.SPAM || attack == Attacks.SPAM_ENDLESS) {
+			// Dependency check
+			if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
+			
 			// Immunity Check
 			if (canbeimmune && attack.isImmune(target)) return false;
 			
@@ -407,12 +430,16 @@ public final class Cruelty {
 			return true;
 		}
 		if (attack == Attacks.DOS) {
+			// Dependency check
+			if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
+			
 			// Immunity Check
 			if (canbeimmune && attack.isImmune(target)) return false;
 			
 			// Action - Dos
+			dossing.add(target.getEntityId());
 			
-			// Clean
+			// Return
 			return true;
 		}
 		
@@ -420,6 +447,8 @@ public final class Cruelty {
 	}
 	
 	// Resources
+	static ArrayList<Integer> dossing;
+	
 	static private final char[] SPAM_NCHRS = "0123456789".toCharArray();
 	static private final char[] SPAM_ACHRS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_".toCharArray();
 	static private final char[] SPAM_ALL = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_!@#$%^&*()-+=[]{}\\|;:'\",<.>/?~".toCharArray();

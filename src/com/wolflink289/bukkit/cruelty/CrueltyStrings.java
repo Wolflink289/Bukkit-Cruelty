@@ -19,6 +19,7 @@ public class CrueltyStrings {
 	static public String MSG_USG_CRASH;
 	static public String MSG_USG_IFUCK;
 	static public String MSG_USG_SPAM;
+	static public String MSG_USG_DOS;
 	
 	static public String MSG_PR1_IFUCK;
 	static public String MSG_PR1_SPAM;
@@ -28,6 +29,7 @@ public class CrueltyStrings {
 	static public String MSG_ACT_CRASH;
 	static public String MSG_ACT_IFUCK;
 	static public String MSG_ACT_SPAM;
+	static public String MSG_ACT_DOS;
 	
 	static public String MSG_ERR_DEPEND;
 	
@@ -56,6 +58,7 @@ public class CrueltyStrings {
 		Local.putDefault("message.usage.crash", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelcrash " + ChatColor.GRAY + "[Player,Player]");
 		Local.putDefault("message.usage.invfuck", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelinvfuck " + ChatColor.GRAY + "[Player,Player] [Method]");
 		Local.putDefault("message.usage.spam", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelspam " + ChatColor.GRAY + "[Player,Player] [Method]");
+		Local.putDefault("message.usage.dos", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/crueldos " + ChatColor.GRAY + "[Player,Player]");
 		Local.putDefault("message.param.invfuck.1", ChatColor.RED + "Methods: " + ChatColor.WHITE + "${METHODS}");
 		Local.putDefault("message.param.spam.1", ChatColor.RED + "Methods: " + ChatColor.WHITE + "${METHODS}");
 		Local.putDefault("message.action.freeze", "Froze ${COUNT} players: ${PLAYERS}");
@@ -63,6 +66,7 @@ public class CrueltyStrings {
 		Local.putDefault("message.action.crash", "Crashed ${COUNT} players: ${PLAYERS}");
 		Local.putDefault("message.action.invfuck", "Fucked with ${COUNT} inventories: ${PLAYERS}");
 		Local.putDefault("message.action.spam", "Spammed ${COUNT} players: ${PLAYERS}");
+		Local.putDefault("message.action.dos", "Dos'd ${COUNT} players: ${PLAYERS}");
 		Local.putDefault("message.do.spam.join", ChatColor.YELLOW + "${NAME} joined the game.");
 		Local.putDefault("message.do.spam.leave", ChatColor.YELLOW + "${NAME} left the game.");
 		Local.putDefault("message.do.spam.speak", "<${NAME}> ${MESSAGE}");
@@ -84,6 +88,7 @@ public class CrueltyStrings {
 		MSG_ACT_CRASH = Local.get("message.action.crash").replace('&', '\247');
 		MSG_ACT_IFUCK = Local.get("message.action.invfuck").replace('&', '\247');
 		MSG_ACT_SPAM = Local.get("message.action.spam").replace('&', '\247');
+		MSG_ACT_DOS = Local.get("message.action.dos").replace('&', '\247');
 		
 		MSG_PR1_IFUCK = Local.get("message.param.invfuck.1").replace('&', '\247');
 		MSG_PR1_SPAM = Local.get("message.param.spam.1").replace('&', '\247');
@@ -93,6 +98,7 @@ public class CrueltyStrings {
 		MSG_USG_CRASH = Local.get("message.usage.crash").replace('&', '\247');
 		MSG_USG_IFUCK = Local.get("message.usage.invfuck").replace('&', '\247');
 		MSG_USG_SPAM = Local.get("message.usage.spam").replace('&', '\247');
+		MSG_USG_DOS = Local.get("message.usage.dos").replace('&', '\247');
 		
 		MSG_ERR_DEPEND = Local.get("message.error.depend").replace('&', '\247');
 		

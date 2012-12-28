@@ -25,6 +25,20 @@ class CrueltyLibs {
 		}
 	}
 	
+	static void disable() {
+		dependencies_loaded = false;
+		
+		// ProtocolLib
+		try {
+			LProtocol.disable();
+		} catch (Throwable t) {}
+		
+		// Finish
+		for (int i = 0; i < dependencies.length; i++) {
+			dependencies[i] = false;
+		}
+	}
+	
 	static void reload() {
 		dependencies_loaded = true;
 		CrueltyPlugin.getPluginLogger().info("Loading dependencies...");
@@ -45,7 +59,7 @@ class CrueltyLibs {
 				break;
 			}
 		}
-
+		
 		CrueltyPlugin.getPluginLogger().info("Loaded dependencies!");
 	}
 }

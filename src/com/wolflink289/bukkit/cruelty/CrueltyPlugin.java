@@ -65,9 +65,11 @@ public class CrueltyPlugin extends JavaPlugin {
 	}
 	
 	// Listener: Plugin Disabled
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onDisable() {
 		// Clear
+		Cruelty.disable();
 		BukkitCommand.clear();
 		cfg = null;
 		
