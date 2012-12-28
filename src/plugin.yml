@@ -5,6 +5,8 @@ author: Wolflink289
 version: 1.0.0
 main: com.wolflink289.bukkit.cruelty.CrueltyPlugin
 
+depend: [ProtocolLib]
+
 commands:
     crueldos:
         description: Initiate a fake DoS attack on a one or more players.

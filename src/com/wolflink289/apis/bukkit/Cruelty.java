@@ -1,14 +1,12 @@
 package com.wolflink289.apis.bukkit;
 
-import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
-import net.minecraft.server.Packet38EntityStatus;
-import net.minecraft.server.Packet60Explosion;
-import net.minecraft.server.Packet8UpdateHealth;
-import net.minecraft.server.Vec3D;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketContainer;
 import com.wolflink289.bukkit.cruelty.CrueltyPermissions;
 import com.wolflink289.bukkit.cruelty.CrueltyStrings;
 
@@ -18,6 +16,7 @@ import com.wolflink289.bukkit.cruelty.CrueltyStrings;
  * @author Wolflink289
  */
 public final class Cruelty {
+	static private ProtocolManager manager;
 	
 	/**
 	 * An enum containing the available attacks.
@@ -94,7 +93,13 @@ public final class Cruelty {
 	 */
 	static public boolean attack(Attacks attack, Player target) {
 		if (attack == null || target == null) return false;
-		return doAttack(attack, target, true);
+		try {
+			return doAttack(attack, target, true);
+		} catch (InvocationTargetException ex) {
+			System.err.println("[Cruelty] Error sending packet:");
+			ex.printStackTrace();
+			return false;
+		}
 	}
 	
 	/**
@@ -106,54 +111,58 @@ public final class Cruelty {
 	 */
 	static public boolean attackAnyway(Attacks attack, Player target) {
 		if (attack == null || target == null) return false;
-		return doAttack(attack, target, false);
+		try {
+			return doAttack(attack, target, false);
+		} catch (InvocationTargetException ex) {
+			System.err.println("[Cruelty] Error sending packet:");
+			ex.printStackTrace();
+			return false;
+		}
 	}
 	
 	/**
 	 * <b>PRIVATE: </b>Do the attack.
 	 */
-	static private boolean doAttack(Attacks attack, Player target, boolean canbeimmune) {
+	static private boolean doAttack(Attacks attack, Player target, boolean canbeimmune) throws InvocationTargetException {
+		// Setup
+		if (manager == null) manager = ProtocolLibrary.getProtocolManager();
+		
+		// Attack
 		if (attack == Attacks.FREEZE) {
 			// Immunity + Cast Checks
 			if (canbeimmune && attack.isImmune(target)) return false;
-			if (!(target instanceof CraftPlayer)) return false;
 			
 			// Action - Generate Packet
-			CraftPlayer crafttarget = (CraftPlayer) target;
-			Packet60Explosion packet = new Packet60Explosion(target.getLocation().getX(), target.getLocation().getY(), target.getLocation().getZ(), 20F, new ArrayList<Object>(), Vec3D.a(target.getLocation().getX(), target.getLocation().getY(), target.getLocation().getZ()));
+			PacketContainer packet = manager.createPacket(60, true);
+			packet.getSpecificModifier(double.class).write(0, target.getLocation().getX()).write(1, target.getLocation().getY()).write(2, target.getLocation().getZ());
+			packet.getSpecificModifier(float.class).write(0, 20f).write(1, (float) target.getLocation().getX()).write(2, (float) target.getLocation().getY()).write(3, (float) target.getLocation().getZ());
 			
 			// Action - Send Packets
 			for (int j = 0; j < 100; j++)
-				crafttarget.getHandle().netServerHandler.sendPacket(packet);
+				manager.sendServerPacket(target, packet);
 			
 			// Clean
-			crafttarget = null;
 			packet = null;
 			return true;
 		}
 		if (attack == Attacks.FEIGN) {
 			// Immunity + Cast Checks
 			if (canbeimmune && attack.isImmune(target)) return false;
-			if (!(target instanceof CraftPlayer)) return false;
 			
 			// Action - Generate Packet
-			CraftPlayer crafttarget = (CraftPlayer) target;
-			Packet38EntityStatus packet1 = new Packet38EntityStatus();
-			Packet8UpdateHealth packet2 = new Packet8UpdateHealth();
+			PacketContainer packet1 = manager.createPacket(38);
+			packet1.getSpecificModifier(int.class).write(0, target.getEntityId());
+			packet1.getSpecificModifier(byte.class).write(0, (byte) 2);
 			
-			packet1.a = crafttarget.getHandle().id;
-			packet1.b = (byte) 2;
-			
-			packet2.a = 0;
-			packet2.b = 0;
-			packet2.c = 0F;
+			PacketContainer packet2 = manager.createPacket(8);
+			packet2.getSpecificModifier(int.class).write(0, 0).write(0, 0);
+			packet2.getSpecificModifier(float.class).write(0, 0f);
 			
 			// Action - Send Packets
-			crafttarget.getHandle().netServerHandler.sendPacket(packet1);
-			crafttarget.getHandle().netServerHandler.sendPacket(packet2);
+			manager.sendServerPacket(target, packet1);
+			manager.sendServerPacket(target, packet2);
 			
 			// Clean
-			crafttarget = null;
 			packet1 = null;
 			packet2 = null;
 			return true;
@@ -161,7 +170,6 @@ public final class Cruelty {
 		if (attack == Attacks.CRASH) {
 			// Immunity Check
 			if (canbeimmune && attack.isImmune(target)) return false;
-			if (!(target instanceof CraftPlayer)) return false;
 			
 			// Action - Crash
 			Random random = new Random(System.currentTimeMillis());
