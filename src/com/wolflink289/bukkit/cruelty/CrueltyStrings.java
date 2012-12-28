@@ -29,6 +29,8 @@ public class CrueltyStrings {
 	static public String MSG_ACT_IFUCK;
 	static public String MSG_ACT_SPAM;
 	
+	static public String MSG_ERR_DEPEND;
+	
 	static public String MSG_DO_SPAM_JOIN, MSG_DO_SPAM_LEAVE, MSG_DO_SPAM_SPEAK;
 	
 	// Prefixes
@@ -64,6 +66,7 @@ public class CrueltyStrings {
 		Local.putDefault("message.do.spam.join", ChatColor.YELLOW + "${NAME} joined the game.");
 		Local.putDefault("message.do.spam.leave", ChatColor.YELLOW + "${NAME} left the game.");
 		Local.putDefault("message.do.spam.speak", "<${NAME}> ${MESSAGE}");
+		Local.putDefault("message.error.depend", ChatColor.RED + "Error: one or more missing dependencies.");
 		Local.putDefault("prefix.attack.success", String.valueOf(ChatColor.GREEN));
 		Local.putDefault("prefix.attack.immune", String.valueOf(ChatColor.DARK_RED));
 		Local.putDefault("prefix.attack.not-found", String.valueOf(ChatColor.RED));
@@ -90,6 +93,8 @@ public class CrueltyStrings {
 		MSG_USG_CRASH = Local.get("message.usage.crash").replace('&', '\247');
 		MSG_USG_IFUCK = Local.get("message.usage.invfuck").replace('&', '\247');
 		MSG_USG_SPAM = Local.get("message.usage.spam").replace('&', '\247');
+		
+		MSG_ERR_DEPEND = Local.get("message.error.depend").replace('&', '\247');
 		
 		MSG_DO_SPAM_JOIN = Local.get("message.do.spam.join").replace('&', '\247');
 		MSG_DO_SPAM_LEAVE = Local.get("message.do.spam.leave").replace('&', '\247');

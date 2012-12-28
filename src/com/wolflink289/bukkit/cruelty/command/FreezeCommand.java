@@ -19,6 +19,11 @@ public class FreezeCommand extends BukkitCommand {
 			return;
 		}
 		
+		if (!Cruelty.Attacks.FREEZE.isEnabled()) {
+			sender.getSender().sendMessage(CrueltyStrings.MSG_ERR_DEPEND);
+			return;
+		}
+		
 		if (params.length != 1) {
 			sender.getSender().sendMessage(CrueltyStrings.MSG_USG_FREEZE); // Send without prefix
 			return;

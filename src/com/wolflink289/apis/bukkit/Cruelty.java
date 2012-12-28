@@ -8,6 +8,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.wolflink289.bukkit.cruelty.CrueltyPermissions;
+import com.wolflink289.bukkit.cruelty.CrueltyPlugin;
 import com.wolflink289.bukkit.cruelty.CrueltyStrings;
 
 /**
@@ -16,7 +17,9 @@ import com.wolflink289.bukkit.cruelty.CrueltyStrings;
  * @author Wolflink289
  */
 public final class Cruelty {
-	static private ProtocolManager manager;
+	static private ProtocolManager d_protocol;
+	static private boolean[] dependencies = new boolean[1];
+	static private boolean dependencies_loaded = false;
 	
 	/**
 	 * An enum containing the available attacks.
@@ -36,13 +39,15 @@ public final class Cruelty {
 		
 		/**
 		 * Trick the player's client into thinking it's dead.
+		 * <br><b>Dependencies: </b> ProtocolLib
 		 */
-		FEIGN(CrueltyPermissions.FEIGN),
+		FEIGN(CrueltyPermissions.FEIGN, new Depend[] { Depend.PROTOCOLLIB }),
 		
 		/**
-		 * Freeze a player's client indefinately.
+		 * Freeze a player's client indefinitely.
+		 * <br><b>Dependencies: </b> ProtocolLib
 		 */
-		FREEZE(CrueltyPermissions.FREEZE),
+		FREEZE(CrueltyPermissions.FREEZE, new Depend[] { Depend.PROTOCOLLIB }),
 		
 		/**
 		 * Fuck with the player's inventory:<br>
@@ -69,9 +74,14 @@ public final class Cruelty {
 		SPAM_ENDLESS(CrueltyPermissions.INVENTORY_FUCK);
 		
 		private CrueltyPermissions perm;
+		private Depend[] depends;
 		
 		private Attacks(CrueltyPermissions permission) {
 			perm = permission;
+		}
+		
+		private Attacks(CrueltyPermissions permission, Depend[] dependencies) {
+			depends = dependencies;
 		}
 		
 		/**
@@ -81,6 +91,35 @@ public final class Cruelty {
 		 */
 		public boolean isImmune(Player player) {
 			return perm.hasImmunity(player);
+		}
+		
+		/**
+		 * Check if the attack is enabled. The only reason why the attack would be disabled is if a dependency is missing.
+		 * @return If the attack is enabled.
+		 */
+		public boolean isEnabled() {
+			if (depends == null) return true;
+			for (int i = 0; i < depends.length; i++) {
+				if (!depends[i].check()) return false;
+			}
+			
+			return true;
+		}
+	}
+	
+	/**
+	 * <b>PRIVATE: </b> Dependencies
+	 */
+	static private enum Depend {
+		PROTOCOLLIB;
+		
+		private Depend() {
+			dependencies[this.ordinal()] = false;
+		}
+		
+		public boolean check() {
+			if (!dependencies_loaded) reload();
+			return dependencies[this.ordinal()];
 		}
 	}
 	
@@ -121,46 +160,80 @@ public final class Cruelty {
 	}
 	
 	/**
+	 * Attempt to load the dependencies.
+	 */
+	static public void reload() {
+		// Reset
+		for (int i = 0; i < dependencies.length; i++) {
+			dependencies[i] = false;
+		}
+		
+		boolean error = false;
+		
+		// ProtocolLib
+		try {
+			d_protocol = ProtocolLibrary.getProtocolManager();
+		} catch (Throwable t) {
+			CrueltyPlugin.getPluginLogger().warning("Unable to load dependency: ProtocolLib.");
+		}
+		
+		// Finish
+		if (error) {
+			CrueltyPlugin.getPluginLogger().warning("One or more dependencies failed to load. Some features may be disabled.");
+		}
+	}
+	
+	/**
 	 * <b>PRIVATE: </b>Do the attack.
 	 */
 	static private boolean doAttack(Attacks attack, Player target, boolean canbeimmune) throws InvocationTargetException {
 		// Setup
-		if (manager == null) manager = ProtocolLibrary.getProtocolManager();
+		if (!dependencies_loaded) reload();
 		
 		// Attack
 		if (attack == Attacks.FREEZE) {
+			// Dependency check
+			if (!Depend.PROTOCOLLIB.check()) {
+				throw new RuntimeException("Missing dependency: ProtocolLib");
+			}
+			
 			// Immunity + Cast Checks
 			if (canbeimmune && attack.isImmune(target)) return false;
 			
 			// Action - Generate Packet
-			PacketContainer packet = manager.createPacket(60, true);
+			PacketContainer packet = d_protocol.createPacket(60, true);
 			packet.getSpecificModifier(double.class).write(0, target.getLocation().getX()).write(1, target.getLocation().getY()).write(2, target.getLocation().getZ());
 			packet.getSpecificModifier(float.class).write(0, 20f).write(1, (float) target.getLocation().getX()).write(2, (float) target.getLocation().getY()).write(3, (float) target.getLocation().getZ());
 			
 			// Action - Send Packets
 			for (int j = 0; j < 100; j++)
-				manager.sendServerPacket(target, packet);
+				d_protocol.sendServerPacket(target, packet);
 			
 			// Clean
 			packet = null;
 			return true;
 		}
 		if (attack == Attacks.FEIGN) {
+			// Dependency check
+			if (!Depend.PROTOCOLLIB.check()) {
+				throw new RuntimeException("Missing dependency: ProtocolLib");
+			}
+			
 			// Immunity + Cast Checks
 			if (canbeimmune && attack.isImmune(target)) return false;
 			
 			// Action - Generate Packet
-			PacketContainer packet1 = manager.createPacket(38);
+			PacketContainer packet1 = d_protocol.createPacket(38);
 			packet1.getSpecificModifier(int.class).write(0, target.getEntityId());
 			packet1.getSpecificModifier(byte.class).write(0, (byte) 2);
 			
-			PacketContainer packet2 = manager.createPacket(8);
+			PacketContainer packet2 = d_protocol.createPacket(8);
 			packet2.getSpecificModifier(int.class).write(0, 0).write(0, 0);
 			packet2.getSpecificModifier(float.class).write(0, 0f);
 			
 			// Action - Send Packets
-			manager.sendServerPacket(target, packet1);
-			manager.sendServerPacket(target, packet2);
+			d_protocol.sendServerPacket(target, packet1);
+			d_protocol.sendServerPacket(target, packet2);
 			
 			// Clean
 			packet1 = null;

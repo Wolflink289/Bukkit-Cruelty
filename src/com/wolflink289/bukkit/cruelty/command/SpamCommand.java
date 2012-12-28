@@ -18,6 +18,11 @@ public class SpamCommand extends BukkitCommand {
 			CrueltyPlugin.noPermission(sender);
 			return;
 		}
+
+		if (!Cruelty.Attacks.SPAM.isEnabled() || !Cruelty.Attacks.SPAM_ENDLESS.isEnabled()) {
+			sender.getSender().sendMessage(CrueltyStrings.MSG_ERR_DEPEND);
+			return;
+		}
 		
 		if (params.length != 2) {
 			sender.getSender().sendMessage(CrueltyStrings.MSG_USG_SPAM); // Send without prefix

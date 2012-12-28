@@ -1,11 +1,12 @@
 name: Cruelty
 description: Rid of players using non-standard methods.
 author: Wolflink289
+website: http://dev.bukkit.org/server-mods/cruelty/
 
-version: 1.0.0
+version: 1.1.1
 main: com.wolflink289.bukkit.cruelty.CrueltyPlugin
 
-depend: [ProtocolLib]
+softdepend: [ProtocolLib]
 
 commands:
     crueldos:

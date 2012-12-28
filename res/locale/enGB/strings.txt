@@ -38,6 +38,8 @@ message.do.spam.join: &e${NAME} joined the game.
 message.do.spam.leave: &e${NAME} left the game.
 message.do.spam.speak: <${NAME}> ${MESSAGE}
 
+message.error.depend: &cError: one or more missing dependencies.
+
 # Prefix Messages #
 prefix.attack.success: &a
 prefix.attack.immune: &4

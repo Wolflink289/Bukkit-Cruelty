@@ -2,9 +2,11 @@ package com.wolflink289.bukkit.cruelty;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import com.wolflink289.apis.bukkit.Cruelty;
 import com.wolflink289.bukkit.cruelty.command.CrashCommand;
 import com.wolflink289.bukkit.cruelty.command.FeignCommand;
 import com.wolflink289.bukkit.cruelty.command.FreezeCommand;
@@ -20,10 +22,22 @@ public class CrueltyPlugin extends JavaPlugin {
 	
 	// Variables
 	static private Config cfg;
+	static private Logger log;
+	
+	// Methods
+	static public Logger getPluginLogger() {
+		return log;
+	}
 	
 	// Listener: Plugin Enabled
 	@Override
 	public void onEnable() {
+		// Set logger
+		log = this.getLogger();
+		
+		// Load dependencies
+		Cruelty.reload();
+		
 		// Load config
 		try {
 			cfg = new Config();

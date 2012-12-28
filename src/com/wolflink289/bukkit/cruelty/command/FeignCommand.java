@@ -18,6 +18,11 @@ public class FeignCommand extends BukkitCommand {
 			CrueltyPlugin.noPermission(sender);
 			return;
 		}
+
+		if (!Cruelty.Attacks.FEIGN.isEnabled()) {
+			sender.getSender().sendMessage(CrueltyStrings.MSG_ERR_DEPEND);
+			return;
+		}
 		
 		if (params.length != 1) {
 			sender.getSender().sendMessage(CrueltyStrings.MSG_USG_FEIGN); // Send without prefix
