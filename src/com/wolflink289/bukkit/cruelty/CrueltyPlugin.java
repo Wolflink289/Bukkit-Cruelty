@@ -7,11 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.wolflink289.apis.bukkit.Cruelty;
-import com.wolflink289.bukkit.cruelty.command.CrashCommand;
-import com.wolflink289.bukkit.cruelty.command.FeignCommand;
-import com.wolflink289.bukkit.cruelty.command.FreezeCommand;
-import com.wolflink289.bukkit.cruelty.command.InventoryFuckCommand;
-import com.wolflink289.bukkit.cruelty.command.SpamCommand;
+import com.wolflink289.bukkit.cruelty.command.*;
 import com.wolflink289.bukkit.util.BukkitCommand;
 import com.wolflink289.bukkit.util.BukkitSender;
 import com.wolflink289.util.Config;
@@ -62,6 +58,7 @@ public class CrueltyPlugin extends JavaPlugin {
 		BukkitCommand.register("cruelcrash", new CrashCommand());
 		BukkitCommand.register("cruelinventoryfuck", new InventoryFuckCommand());
 		BukkitCommand.register("cruelspam", new SpamCommand());
+		BukkitCommand.register("crueldos", new DosCommand());
 		
 		// Log
 		getLogger().info(CrueltyStrings.MSG_ENABLED);

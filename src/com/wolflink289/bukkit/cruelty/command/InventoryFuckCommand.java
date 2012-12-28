@@ -33,6 +33,7 @@ public class InventoryFuckCommand extends BukkitCommand {
 		if (method == null) {
 			sender.getSender().sendMessage(CrueltyStrings.MSG_USG_IFUCK); // Send without prefix
 			sender.getSender().sendMessage(CrueltyStrings.MSG_PR1_IFUCK.replace("${METHODS}", "scramble hotswap")); // Send without prefix
+			return;
 		}
 		
 		StringBuilder sb = new StringBuilder();
