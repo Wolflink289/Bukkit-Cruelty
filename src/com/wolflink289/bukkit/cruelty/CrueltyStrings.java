@@ -2,6 +2,7 @@ package com.wolflink289.bukkit.cruelty;
 
 import org.bukkit.ChatColor;
 import com.wolflink289.bukkit.util.BukkitSender;
+import com.wolflink289.util.Config;
 import com.wolflink289.util.Local;
 
 public class CrueltyStrings {
@@ -20,6 +21,9 @@ public class CrueltyStrings {
 	static public String MSG_USG_IFUCK;
 	static public String MSG_USG_SPAM;
 	static public String MSG_USG_DOS;
+	static public String MSG_USG_TRIP;
+	static public String MSG_USG_SCREAM;
+	static public String MSG_USG_NOTHINGNESS;
 	
 	static public String MSG_PR1_IFUCK;
 	static public String MSG_PR1_SPAM;
@@ -30,6 +34,9 @@ public class CrueltyStrings {
 	static public String MSG_ACT_IFUCK;
 	static public String MSG_ACT_SPAM;
 	static public String MSG_ACT_DOS;
+	static public String MSG_ACT_TRIP;
+	static public String MSG_ACT_SCREAM;
+	static public String MSG_ACT_NOTHINGNESS;
 	
 	static public String MSG_ERR_DEPEND;
 	
@@ -47,7 +54,7 @@ public class CrueltyStrings {
 	/**
 	 * Refresh the cached strings.
 	 */
-	static public void refresh() {
+	static public void refresh(Config cfg) {
 		// Put Defaults
 		Local.putDefault("error.denied", ChatColor.RED + "Permission denied!");
 		Local.putDefault("error.save", "Unable to save:");
@@ -59,6 +66,9 @@ public class CrueltyStrings {
 		Local.putDefault("message.usage.invfuck", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelinvfuck " + ChatColor.GRAY + "[Player,Player] [Method]");
 		Local.putDefault("message.usage.spam", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelspam " + ChatColor.GRAY + "[Player,Player] [Method]");
 		Local.putDefault("message.usage.dos", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/crueldos " + ChatColor.GRAY + "[Player,Player]");
+		Local.putDefault("message.usage.trip", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/crueltrip " + ChatColor.GRAY + "[Player,Player]");
+		Local.putDefault("message.usage.scream", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelscream " + ChatColor.GRAY + "[Player,Player]");
+		Local.putDefault("message.usage.nothingness", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelnothingness " + ChatColor.GRAY + "[Player,Player]");
 		Local.putDefault("message.param.invfuck.1", ChatColor.RED + "Methods: " + ChatColor.WHITE + "${METHODS}");
 		Local.putDefault("message.param.spam.1", ChatColor.RED + "Methods: " + ChatColor.WHITE + "${METHODS}");
 		Local.putDefault("message.action.freeze", "Froze ${COUNT} players: ${PLAYERS}");
@@ -67,6 +77,9 @@ public class CrueltyStrings {
 		Local.putDefault("message.action.invfuck", "Fucked with ${COUNT} inventories: ${PLAYERS}");
 		Local.putDefault("message.action.spam", "Spammed ${COUNT} players: ${PLAYERS}");
 		Local.putDefault("message.action.dos", "Dos'd ${COUNT} players: ${PLAYERS}");
+		Local.putDefault("message.action.trip", "Gave LSD to ${COUNT} players: ${PLAYERS}");
+		Local.putDefault("message.action.scream", "Screamed at ${COUNT} players: ${PLAYERS}");
+		Local.putDefault("message.action.nothingness", "Nothingness enveloped ${COUNT} players: ${PLAYERS}");
 		Local.putDefault("message.do.spam.join", ChatColor.YELLOW + "${NAME} joined the game.");
 		Local.putDefault("message.do.spam.leave", ChatColor.YELLOW + "${NAME} left the game.");
 		Local.putDefault("message.do.spam.speak", "<${NAME}> ${MESSAGE}");
@@ -89,6 +102,9 @@ public class CrueltyStrings {
 		MSG_ACT_IFUCK = Local.get("message.action.invfuck").replace('&', '\247');
 		MSG_ACT_SPAM = Local.get("message.action.spam").replace('&', '\247');
 		MSG_ACT_DOS = Local.get("message.action.dos").replace('&', '\247');
+		MSG_ACT_TRIP = Local.get("message.action.trip").replace('&', '\247');
+		MSG_ACT_SCREAM = Local.get("message.action.scream").replace('&', '\247');
+		MSG_ACT_NOTHINGNESS = Local.get("message.action.nothingness").replace('&', '\247');
 		
 		MSG_PR1_IFUCK = Local.get("message.param.invfuck.1").replace('&', '\247');
 		MSG_PR1_SPAM = Local.get("message.param.spam.1").replace('&', '\247');
@@ -99,6 +115,9 @@ public class CrueltyStrings {
 		MSG_USG_IFUCK = Local.get("message.usage.invfuck").replace('&', '\247');
 		MSG_USG_SPAM = Local.get("message.usage.spam").replace('&', '\247');
 		MSG_USG_DOS = Local.get("message.usage.dos").replace('&', '\247');
+		MSG_USG_TRIP = Local.get("message.usage.trip").replace('&', '\247');
+		MSG_USG_SCREAM = Local.get("message.usage.scream").replace('&', '\247');
+		MSG_USG_NOTHINGNESS = Local.get("message.usage.nothingness").replace('&', '\247');
 		
 		MSG_ERR_DEPEND = Local.get("message.error.depend").replace('&', '\247');
 		
@@ -112,6 +131,11 @@ public class CrueltyStrings {
 		
 		PFX_MSG = Local.get("prefix.message").replace('&', '\247');
 		if (!ChatColor.stripColor(PFX_MSG).isEmpty()) PFX_MSG += " ";
+		
+		// Override
+		if (cfg.contains("spam.join")) MSG_DO_SPAM_JOIN = cfg.get("spam.join").replace('&', '\247');
+		if (cfg.contains("spam.leave")) MSG_DO_SPAM_LEAVE = cfg.get("spam.leave").replace('&', '\247');
+		if (cfg.contains("spam.speak")) MSG_DO_SPAM_SPEAK = cfg.get("spam.speak").replace('&', '\247');
 		
 		BukkitSender.setMessagePrefix(PFX_MSG);
 	}

@@ -49,7 +49,7 @@ public class CrueltyPlugin extends JavaPlugin {
 		// Load locale
 		Local.setLocale(cfg.get("locale", "enUS"));
 		Local.refresh();
-		CrueltyStrings.refresh();
+		CrueltyStrings.refresh(cfg);
 		
 		// Register commands
 		BukkitCommand.clear();
@@ -59,6 +59,9 @@ public class CrueltyPlugin extends JavaPlugin {
 		BukkitCommand.register("cruelinventoryfuck", new InventoryFuckCommand());
 		BukkitCommand.register("cruelspam", new SpamCommand());
 		BukkitCommand.register("crueldos", new DosCommand());
+		BukkitCommand.register("crueltrip", new TripCommand());
+		BukkitCommand.register("cruelscream", new ScreamCommand());
+		BukkitCommand.register("cruelnothingness", new NothingnessCommand());
 		
 		// Log
 		getLogger().info(CrueltyStrings.MSG_ENABLED);

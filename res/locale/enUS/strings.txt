@@ -24,6 +24,10 @@ message.action.feign: Feigned ${COUNT} players: ${PLAYERS}
 message.action.crash: Crash ${COUNT} players: ${PLAYERS}
 message.action.invfuck: Fucked with ${COUNT} inventories: ${PLAYERS}
 message.action.spam: Spammed ${COUNT} players: ${PLAYERS}
+message.action.dos: Dos'd ${COUNT} players: ${PLAYERS}
+message.action.trip: Gave LSD to ${COUNT} players: ${PLAYERS}
+message.action.scream: Screamed at ${COUNT} players: ${PLAYERS}
+message.action.nothingness: Nothingness enveloped ${COUNT} players: ${PLAYERS}
 
 message.param.invfuck.1: &cMethods: &f${METHODS}
 message.param.spam.1: &cMethods: &f${METHODS}
@@ -33,6 +37,10 @@ message.usage.feign: &cUsage: &f/cruelfeign &7[Player,Player]
 message.usage.crash: &cUsage: &f/cruelcrash &7[Player,Player]
 message.usage.invfuck: &cUsage: &f/cruelinvfuck &7[Player,Player] [Method]
 message.usage.spam: &cUsage: &f/cruelspam &7[Player,Player] [Method]
+message.usage.trip: &cUsage: &f/crueltrip &7[Player,Player] [Method]
+message.usage.dos: &cUsage: &f/crueldos &7[Player,Player]
+message.usage.scream: &cUsage: &f/cruelscream &7[Player,Player]
+message.usage.nothingness: &cUsage: &f/cruelnothingness &7[Player,Player]
 
 message.do.spam.join: &e${NAME} joined the game.
 message.do.spam.leave: &e${NAME} left the game.
