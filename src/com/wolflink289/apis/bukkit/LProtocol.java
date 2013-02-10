@@ -206,11 +206,6 @@ class LProtocol {
 					}
 					return;
 				} catch (Exception ex) {
-					for (int i = 0; i < 5; i++)
-						System.out.println();
-					System.out.println("--------------------------------------------");
-					System.out.println("PACKET ID: " + event.getPacketID());
-					ex.printStackTrace();
 				}
 			}
 		});

@@ -50,7 +50,6 @@ public class NothingnessCommand extends BukkitCommand {
 				}
 			}
 		} catch (RuntimeException ex) {
-			ex.printStackTrace();
 			// This will only happen in the event of chunks not being able to be resent.
 			sender.sendMessage(CrueltyStrings.MSG_ERR_DEPEND);
 			return;

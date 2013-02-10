@@ -329,7 +329,6 @@ public final class Cruelty {
 			return true;
 		}
 		if (attack == Attacks.SPAM || attack == Attacks.SPAM_ENDLESS) {
-			target.setVelocity(target.getLocation().getDirection().multiply(-1));
 			// Dependency check
 			if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
 			
@@ -724,7 +723,6 @@ public final class Cruelty {
 			// ChunkCoordIntPair location = new ChunkCoordIntPair(i, j);
 			// ((CraftPlayer) player).getHandle().chunkCoordIntPairQueue.add(location);
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			throw new RuntimeException();
 		}
 	}
