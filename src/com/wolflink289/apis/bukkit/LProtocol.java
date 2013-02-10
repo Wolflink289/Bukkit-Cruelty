@@ -67,6 +67,10 @@ class LProtocol {
 				under.write(index, value);
 				return this;
 			}
+			
+			T read(int index) {
+				return under.read(index);
+			}
 		}
 		
 		// Specific Ones
@@ -125,28 +129,30 @@ class LProtocol {
 		// Nothingness
 		Set<Integer> packets = new HashSet<Integer>();
 		packets.add(3);
-		packets.add(5);
 		packets.add(9);
 		packets.add(20);
-		packets.add(22);
-		packets.add(23);
-		packets.add(24);
-		packets.add(26);
-		packets.add(28);
-		packets.add(30);
-		packets.add(31);
-		packets.add(32);
-		packets.add(33);
-		packets.add(34);
-		packets.add(35);
-		packets.add(38);
-		packets.add(39);
-		packets.add(40);
-		packets.add(41);
-		packets.add(42);
 		packets.add(55);
-		packets.add(61);
-		packets.add(62);
+		if (Cruelty.hide_all_entities) {
+			packets.add(5);
+			packets.add(22);
+			packets.add(23);
+			packets.add(24);
+			packets.add(26);
+			packets.add(28);
+			packets.add(30);
+			packets.add(31);
+			packets.add(32);
+			packets.add(33);
+			packets.add(34);
+			packets.add(35);
+			packets.add(38);
+			packets.add(39);
+			packets.add(40);
+			packets.add(41);
+			packets.add(42);
+			packets.add(61);
+			packets.add(62);
+		}
 		
 		manager.addPacketListener(new PacketAdapter(cplug, ConnectionSide.SERVER_SIDE, ListenerPriority.NORMAL, packets) {
 			@Override

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import org.bukkit.Chunk;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -546,13 +547,18 @@ public final class Cruelty {
 				packet2.getModifier(float.class).write(0, 0f);
 				
 				Packet packet3 = new Packet(9);
-				packet3.x_setup_9(target.getPlayer().getGameMode(), target.getWorld().getWorldType());
-				packet3.getModifier(int.class).write(0, 1).write(1, target.getPlayer().getWorld().getDifficulty().getValue()).write(2, target.getWorld().getMaxHeight());
+				packet3.x_setup_9(GameMode.CREATIVE, target.getWorld().getWorldType());
+				packet3.getModifier(int.class).write(0, -1).write(1, target.getWorld().getDifficulty().getValue()).write(2, target.getWorld().getMaxHeight());
+				
+				Packet packet5 = new Packet(8);
+				packet5.getModifier(int.class).write(0, target.getHealth()).write(1, target.getFoodLevel());
+				packet5.getModifier(float.class).write(0, target.getSaturation());
 				
 				// Send Packets
 				LProtocol.sendPacket(target, packet1);
 				LProtocol.sendPacket(target, packet2);
 				LProtocol.sendPacket(target, packet3);
+				LProtocol.sendPacket(target, packet5);
 				
 				// Resend Chunks
 				Chunk[][] send = new Chunk[33][33];
@@ -632,11 +638,16 @@ public final class Cruelty {
 			Packet packet3 = new Packet(9);
 			packet3.x_setup_9(target.getPlayer().getGameMode(), target.getWorld().getWorldType());
 			packet3.getModifier(int.class).write(0, target.getWorld().getEnvironment().getId()).write(1, target.getPlayer().getWorld().getDifficulty().getValue()).write(2, target.getWorld().getMaxHeight());
+
+			Packet packet5 = new Packet(8);
+			packet5.getModifier(int.class).write(0, target.getHealth()).write(1, target.getFoodLevel());
+			packet5.getModifier(float.class).write(0, target.getSaturation());
 			
 			// Send Packets
 			LProtocol.sendPacket(target, packet1);
 			LProtocol.sendPacket(target, packet2);
 			LProtocol.sendPacket(target, packet3);
+			LProtocol.sendPacket(target, packet5);
 			
 			// Resend Chunks
 			Chunk[][] send = new Chunk[33][33];
@@ -728,6 +739,7 @@ public final class Cruelty {
 	}
 	
 	// Resources
+	static boolean hide_all_entities = true;
 	static ArrayList<Integer> dossing;
 	static ArrayList<Integer> nothinging;
 	

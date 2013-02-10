@@ -25,7 +25,7 @@ public class ScreamCommand extends BukkitCommand {
 		}
 		
 		if (params.length != 1) {
-			sender.getSender().sendMessage(CrueltyStrings.MSG_USG_FEIGN); // Send without prefix
+			sender.getSender().sendMessage(CrueltyStrings.MSG_USG_SCREAM); // Send without prefix
 			return;
 		}
 		
