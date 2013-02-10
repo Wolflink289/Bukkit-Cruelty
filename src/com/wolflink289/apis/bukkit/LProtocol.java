@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import com.comphenix.protocol.Packets;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
@@ -17,6 +18,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.utility.MinecraftReflection;
+import com.wolflink289.bukkit.cruelty.CrueltyPlugin;
 
 class LProtocol {
 	static private ProtocolManager manager;
@@ -95,8 +97,10 @@ class LProtocol {
 	 * Setup the hooks for Cruelty.
 	 */
 	static void setupHooks() {
+		Plugin cplug = CrueltyPlugin.instance;
+		
 		// DoS
-		manager.addPacketListener(new PacketAdapter(Bukkit.getPluginManager().getPlugin("Cruelty"), ConnectionSide.CLIENT_SIDE, ListenerPriority.NORMAL, Packets.getClientRegistry().values()) {
+		manager.addPacketListener(new PacketAdapter(cplug, ConnectionSide.CLIENT_SIDE, ListenerPriority.NORMAL, Packets.getClientRegistry().values()) {
 			@Override
 			public void onPacketReceiving(PacketEvent event) {
 				if (Cruelty.dossing.isEmpty()) return;
@@ -107,7 +111,7 @@ class LProtocol {
 			}
 		});
 		
-		manager.addPacketListener(new PacketAdapter(Bukkit.getPluginManager().getPlugin("Cruelty"), ConnectionSide.SERVER_SIDE, ListenerPriority.NORMAL, Packets.getServerRegistry().values()) {
+		manager.addPacketListener(new PacketAdapter(cplug, ConnectionSide.SERVER_SIDE, ListenerPriority.NORMAL, Packets.getServerRegistry().values()) {
 			@Override
 			public void onPacketSending(PacketEvent event) {
 				if (Cruelty.dossing.isEmpty()) return;
@@ -144,7 +148,7 @@ class LProtocol {
 		packets.add(61);
 		packets.add(62);
 		
-		manager.addPacketListener(new PacketAdapter(Bukkit.getPluginManager().getPlugin("Cruelty"), ConnectionSide.SERVER_SIDE, ListenerPriority.NORMAL, packets) {
+		manager.addPacketListener(new PacketAdapter(cplug, ConnectionSide.SERVER_SIDE, ListenerPriority.NORMAL, packets) {
 			@Override
 			public void onPacketSending(PacketEvent event) {
 				if (Cruelty.nothinging.isEmpty()) return;
@@ -205,8 +209,7 @@ class LProtocol {
 						event.setCancelled(true);
 					}
 					return;
-				} catch (Exception ex) {
-				}
+				} catch (Exception ex) {}
 			}
 		});
 	}

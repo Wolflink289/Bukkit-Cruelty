@@ -19,10 +19,13 @@ public class TripCommand extends BukkitCommand {
 			return;
 		}
 		
+		/*
+		Soft dependency, not really necessary to check.
 		if (!Cruelty.Attacks.TRIP.isEnabled()) {
 			sender.getSender().sendMessage(CrueltyStrings.MSG_ERR_DEPEND);
 			return;
 		}
+		*/
 		
 		if (params.length != 1) {
 			sender.getSender().sendMessage(CrueltyStrings.MSG_USG_TRIP); // Send without prefix

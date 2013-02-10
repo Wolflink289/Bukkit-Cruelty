@@ -92,7 +92,7 @@ public final class Cruelty {
 		 * Trick a player's client into thinking they are in the end. While in this state, the player cannot see any other entities. <br>
 		 * <b>Dependencies: </b> ProtocolLib
 		 */
-		NOTHINGNESS(CrueltyPermissions.NOTHINGNESS);
+		NOTHINGNESS(CrueltyPermissions.NOTHINGNESS, new Depend[] { Depend.PROTOCOLLIB });
 		
 		private CrueltyPermissions perm;
 		private Depend[] depends;

@@ -19,6 +19,7 @@ public class CrueltyPlugin extends JavaPlugin {
 	// Variables
 	static private Config cfg;
 	static private Logger log;
+	static public JavaPlugin instance;
 	
 	// Methods
 	static public Logger getPluginLogger() {
@@ -28,6 +29,8 @@ public class CrueltyPlugin extends JavaPlugin {
 	// Listener: Plugin Enabled
 	@Override
 	public void onEnable() {
+		instance = this;
+		
 		// Set logger
 		log = this.getLogger();
 		
