@@ -63,6 +63,12 @@ commands:
         aliases: [cn, cnothingness, cnothing]
         permission: cruelty.attack.nothingness
         permission-message: Unknown command. Type "help" for help.
+    cruelparanoia:
+        description: Send one or more players' into their own desolate universe.
+        usage: /cruelparanoia [Player,Player]
+        aliases: [cp, cparanoia, cparanoid]
+        permission: cruelty.attack.paranoia
+        permission-message: Unknown command. Type "help" for help.
     
 permissions:
     cruelty.*:
@@ -111,6 +117,9 @@ permissions:
     cruelty.attack.nothingness:
         description: Allows the user to send a player into their own desolate dimension.
         default: op
+    cruelty.attack.paranoia:
+        description: Allows the user to make a player paranoid.
+        default: op
     cruelty.immune.*:
         description: Gives access to all Cruelty immunities.
         default: op
@@ -124,6 +133,7 @@ permissions:
             cruelty.immune.trip: true
             cruelty.immune.scream: true
             cruelty.immune.nothingness: true
+            cruelty.immune.paranoia: true
     cruelty.immune.dos:
         description: The user becomes immune to the DoS attack.
         default: op
@@ -150,4 +160,7 @@ permissions:
         default: op
     cruelty.immune.scream:
         description: The user becomes immune to having /curelnothingness executed on them.
+        default: op
+    cruelty.immune.paranoia:
+        description: The user becomes immune to having /cruelparanoya executed on them.
         default: op

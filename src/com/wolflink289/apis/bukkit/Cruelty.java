@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import org.bukkit.Chunk;
+import org.bukkit.Effect;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -83,6 +85,12 @@ public final class Cruelty {
 		 * <b>Soft Dependencies: </b> ProtocolLib
 		 */
 		TRIP(CrueltyPermissions.TRIP, new Depend[] { Depend.PROTOCOLLIB }),
+		
+		/**
+		 * Make a player see and here creepers everywhere near them. <br>
+		 * <b>Soft Dependencies: </b> ProtocolLib
+		 */
+		PARANOIA(CrueltyPermissions.PARANOIA, new Depend[] { Depend.PROTOCOLLIB }),
 		
 		/**
 		 * Spam the player's speakers with mob death sounds.
@@ -337,7 +345,7 @@ public final class Cruelty {
 			if (canbeimmune && attack.isImmune(target)) return false;
 			
 			// Action - Spam
-			new Thread() {
+			new Thread("Cruelty: SPAM (" + target.getName() + ")") {
 				protected Player target;
 				protected Random rand;
 				protected boolean endless;
@@ -476,7 +484,7 @@ public final class Cruelty {
 			
 			// Action - Trip
 			short time = 20 * 60 * 5;
-			if (!attack.isEnabled()) {
+			if (attack.isEnabled()) {
 				Packet packet1 = new Packet(41);
 				packet1.getModifier(int.class).write(0, target.getEntityId());
 				packet1.getModifier(byte.class).write(0, (byte) PotionEffectType.CONFUSION.getId());
@@ -615,9 +623,55 @@ public final class Cruelty {
 				return true;
 			} catch (Exception ex) {
 				nothinging.remove((Object) target.getEntityId());
+				return false;
 			}
 		}
 		
+		if (attack == Attacks.PARANOIA) {
+			// Immunity + Cast Checks
+			if (canbeimmune && attack.isImmune(target)) return false;
+			
+			// Start
+			new Thread("Cruelty: PARANOIA (" + target.getName() + ")") {
+				private boolean plib;
+				private Player target;
+				
+				@Override
+				public void run() {
+					Random rand = new Random(System.currentTimeMillis());
+					while (target.isOnline()) {
+						try {
+							// Play Sound
+							Location tloc = target.getLocation();
+							Location sloc = new Location(tloc.getWorld(), tloc.getX(), tloc.getY(), tloc.getZ());
+							sloc.setX(sloc.getX() + (rand.nextInt(8) - 4));
+							sloc.setY(sloc.getY() + (rand.nextInt(8) - 4));
+							sloc.setZ(sloc.getZ() + (rand.nextInt(8) - 4));
+							double dist = Math.abs(tloc.getX() - sloc.getX()) + Math.abs(tloc.getY() - sloc.getY()) + Math.abs(tloc.getZ() - sloc.getZ());
+							
+							target.playSound(sloc, Sound.FUSE, (float) (32d / dist), 1f);
+							target.playEffect(sloc, Effect.SMOKE, 4);
+							
+							// Show Creeper
+							if (plib) {
+								// TODO
+							}
+							
+							// Wait
+							Thread.sleep(rand.nextInt(1000 * 7) + 500); // 0.5-7.5 seconds
+						} catch (Exception ex) {}
+					}
+				}
+				
+				public void start(Player target, boolean plib) {
+					this.target = target;
+					this.plib = plib;
+					setDaemon(true);
+					start();
+				}
+			}.start(target, attack.isEnabled());
+			return true;
+		}
 		return false;
 	}
 	
@@ -638,7 +692,7 @@ public final class Cruelty {
 			Packet packet3 = new Packet(9);
 			packet3.x_setup_9(target.getPlayer().getGameMode(), target.getWorld().getWorldType());
 			packet3.getModifier(int.class).write(0, target.getWorld().getEnvironment().getId()).write(1, target.getPlayer().getWorld().getDifficulty().getValue()).write(2, target.getWorld().getMaxHeight());
-
+			
 			Packet packet5 = new Packet(8);
 			packet5.getModifier(int.class).write(0, target.getHealth()).write(1, target.getFoodLevel());
 			packet5.getModifier(float.class).write(0, target.getSaturation());

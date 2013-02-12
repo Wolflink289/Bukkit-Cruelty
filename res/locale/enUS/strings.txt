@@ -28,6 +28,7 @@ message.action.dos: Dos'd ${COUNT} players: ${PLAYERS}
 message.action.trip: Gave LSD to ${COUNT} players: ${PLAYERS}
 message.action.scream: Screamed at ${COUNT} players: ${PLAYERS}
 message.action.nothingness: Nothingness enveloped ${COUNT} players: ${PLAYERS}
+message.action.paranoia: Paranoia warped the minds of ${COUNT} players: ${PLAYERS}
 
 message.param.invfuck.1: &cMethods: &f${METHODS}
 message.param.spam.1: &cMethods: &f${METHODS}
@@ -41,6 +42,7 @@ message.usage.trip: &cUsage: &f/crueltrip &7[Player,Player] [Method]
 message.usage.dos: &cUsage: &f/crueldos &7[Player,Player]
 message.usage.scream: &cUsage: &f/cruelscream &7[Player,Player]
 message.usage.nothingness: &cUsage: &f/cruelnothingness &7[Player,Player]
+message.usage.paranoia: &cUsage: &f/cruelparanoia &7[Player,Player]
 
 message.do.spam.join: &e${NAME} joined the game.
 message.do.spam.leave: &e${NAME} left the game.

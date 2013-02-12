@@ -24,6 +24,7 @@ public class CrueltyStrings {
 	static public String MSG_USG_TRIP;
 	static public String MSG_USG_SCREAM;
 	static public String MSG_USG_NOTHINGNESS;
+	static public String MSG_USG_PARANOIA;
 	
 	static public String MSG_PR1_IFUCK;
 	static public String MSG_PR1_SPAM;
@@ -37,6 +38,7 @@ public class CrueltyStrings {
 	static public String MSG_ACT_TRIP;
 	static public String MSG_ACT_SCREAM;
 	static public String MSG_ACT_NOTHINGNESS;
+	static public String MSG_ACT_PARANOIA;
 	
 	static public String MSG_ERR_DEPEND;
 	
@@ -69,6 +71,7 @@ public class CrueltyStrings {
 		Local.putDefault("message.usage.trip", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/crueltrip " + ChatColor.GRAY + "[Player,Player]");
 		Local.putDefault("message.usage.scream", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelscream " + ChatColor.GRAY + "[Player,Player]");
 		Local.putDefault("message.usage.nothingness", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelnothingness " + ChatColor.GRAY + "[Player,Player]");
+		Local.putDefault("message.usage.paranoia", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelparanoia " + ChatColor.GRAY + "[Player,Player]");
 		Local.putDefault("message.param.invfuck.1", ChatColor.RED + "Methods: " + ChatColor.WHITE + "${METHODS}");
 		Local.putDefault("message.param.spam.1", ChatColor.RED + "Methods: " + ChatColor.WHITE + "${METHODS}");
 		Local.putDefault("message.action.freeze", "Froze ${COUNT} players: ${PLAYERS}");
@@ -80,6 +83,7 @@ public class CrueltyStrings {
 		Local.putDefault("message.action.trip", "Gave LSD to ${COUNT} players: ${PLAYERS}");
 		Local.putDefault("message.action.scream", "Screamed at ${COUNT} players: ${PLAYERS}");
 		Local.putDefault("message.action.nothingness", "Nothingness enveloped ${COUNT} players: ${PLAYERS}");
+		Local.putDefault("message.action.paranoia", "Paranoid warped the minds of ${COUNT} players: ${PLAYERS}");
 		Local.putDefault("message.do.spam.join", ChatColor.YELLOW + "${NAME} joined the game.");
 		Local.putDefault("message.do.spam.leave", ChatColor.YELLOW + "${NAME} left the game.");
 		Local.putDefault("message.do.spam.speak", "<${NAME}> ${MESSAGE}");
@@ -105,6 +109,7 @@ public class CrueltyStrings {
 		MSG_ACT_TRIP = Local.get("message.action.trip").replace('&', '\247');
 		MSG_ACT_SCREAM = Local.get("message.action.scream").replace('&', '\247');
 		MSG_ACT_NOTHINGNESS = Local.get("message.action.nothingness").replace('&', '\247');
+		MSG_ACT_PARANOIA = Local.get("message.action.paranoia").replace('&', '\247');
 		
 		MSG_PR1_IFUCK = Local.get("message.param.invfuck.1").replace('&', '\247');
 		MSG_PR1_SPAM = Local.get("message.param.spam.1").replace('&', '\247');
@@ -118,6 +123,7 @@ public class CrueltyStrings {
 		MSG_USG_TRIP = Local.get("message.usage.trip").replace('&', '\247');
 		MSG_USG_SCREAM = Local.get("message.usage.scream").replace('&', '\247');
 		MSG_USG_NOTHINGNESS = Local.get("message.usage.nothingness").replace('&', '\247');
+		MSG_USG_PARANOIA = Local.get("message.usage.paranoia").replace('&', '\247');
 		
 		MSG_ERR_DEPEND = Local.get("message.error.depend").replace('&', '\247');
 		

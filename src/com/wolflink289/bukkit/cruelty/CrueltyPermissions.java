@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import com.wolflink289.bukkit.util.BukkitSender;
 
 public enum CrueltyPermissions {
-	DOS("cruelty.X.dos"), CRASH("cruelty.X.crash"), FEIGN("cruelty.X.feign"), FREEZE("cruelty.X.freeze"), INVENTORY_FUCK("cruelty.X.invfuck"), SPAM("cruelty.X.spam"), TRIP("cruelty.X.trip"), SCREAM("cruelty.X.scream"), NOTHINGNESS("cruelty.X.nothingness");
+	DOS("cruelty.X.dos"), CRASH("cruelty.X.crash"), FEIGN("cruelty.X.feign"), FREEZE("cruelty.X.freeze"), INVENTORY_FUCK("cruelty.X.invfuck"), SPAM("cruelty.X.spam"), TRIP("cruelty.X.trip"), SCREAM("cruelty.X.scream"), NOTHINGNESS("cruelty.X.nothingness"), PARANOIA("cruelty.X.paranoia");
 	
 	/**
 	 * Does the target have immunity?

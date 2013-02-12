@@ -65,6 +65,7 @@ public class CrueltyPlugin extends JavaPlugin {
 		BukkitCommand.register("crueltrip", new TripCommand());
 		BukkitCommand.register("cruelscream", new ScreamCommand());
 		BukkitCommand.register("cruelnothingness", new NothingnessCommand());
+		BukkitCommand.register("cruelparanoia", new ParanoiaCommand());
 		
 		// Log
 		getLogger().info(CrueltyStrings.MSG_ENABLED);
