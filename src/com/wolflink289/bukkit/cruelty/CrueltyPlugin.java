@@ -3,6 +3,7 @@ package com.wolflink289.bukkit.cruelty;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -87,7 +88,12 @@ public class CrueltyPlugin extends JavaPlugin {
 	// Listener: Command Executed
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String alias, String[] params) {
-		return BukkitCommand.call(sender, command, alias, params);
+		try {
+			return BukkitCommand.call(sender, command, alias, params);
+		} catch (UnsupportedOperationException ex) {
+			sender.sendMessage(ChatColor.RED + ex.getMessage());
+			return true;
+		}
 	}
 	
 	// Static Methods

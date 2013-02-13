@@ -29,6 +29,11 @@ import com.wolflink289.apis.bukkit.CrueltyLibs.Depend;
 public final class Cruelty {
 	
 	/**
+	 * A constant variable (MUST BE "STATIC PRIVATE FINAL") which tells the compiler to replace the Attacks.CRASH and Attacks.FREEZE methods with "throw new UnsupportedOperationException()"
+	 */
+	static private final boolean BUKKIT_DEV = true;
+	
+	/**
 	 * An enum containing the available attacks.
 	 * 
 	 * @author Wolflink289
@@ -207,24 +212,32 @@ public final class Cruelty {
 		
 		// Attack
 		if (attack == Attacks.FREEZE) {
-			// Dependency check
-			if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
-			
-			// Immunity + Cast Checks
-			if (canbeimmune && attack.isImmune(target)) return false;
-			
-			// Action - Generate Packet
-			LProtocol.Packet packet = new LProtocol.Packet(60);
-			packet.getModifier(double.class).write(0, target.getLocation().getX()).write(1, target.getLocation().getY()).write(2, target.getLocation().getZ());
-			packet.getModifier(float.class).write(0, 20f).write(1, (float) target.getLocation().getX()).write(2, (float) target.getLocation().getY()).write(3, (float) target.getLocation().getZ());
-			
-			// Action - Send Packets
-			for (int j = 0; j < 100; j++)
-				LProtocol.sendPacket(target, packet);
-			
-			// Clean
-			packet = null;
-			return true;
+			/*
+			 * The following is handled by the java "preprocessor".
+			 * If the constant "BUKKIT_DEV" is set to false, the attack will take place.
+			 */
+			if (BUKKIT_DEV) {
+				throw new UnsupportedOperationException("Bukkit Dev does not allow usage of this feature.");
+			} else {
+				// Dependency check
+				if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
+				
+				// Immunity + Cast Checks
+				if (canbeimmune && attack.isImmune(target)) return false;
+				
+				// Action - Generate Packet
+				LProtocol.Packet packet = new LProtocol.Packet(60);
+				packet.getModifier(double.class).write(0, target.getLocation().getX()).write(1, target.getLocation().getY()).write(2, target.getLocation().getZ());
+				packet.getModifier(float.class).write(0, 20f).write(1, (float) target.getLocation().getX()).write(2, (float) target.getLocation().getY()).write(3, (float) target.getLocation().getZ());
+				
+				// Action - Send Packets
+				for (int j = 0; j < 100; j++)
+					LProtocol.sendPacket(target, packet);
+				
+				// Clean
+				packet = null;
+				return true;
+			}
 		}
 		if (attack == Attacks.FEIGN) {
 			// Dependency check
@@ -252,24 +265,32 @@ public final class Cruelty {
 			return true;
 		}
 		if (attack == Attacks.CRASH) {
-			// Dependency check
-			if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
-			
-			// Immunity Check
-			if (canbeimmune && attack.isImmune(target)) return false;
-			
-			// Action - Crash
-			Random random = new Random(System.currentTimeMillis());
-			for (int i = 0; i < 10; i++) {
-				target.sendBlockChange(target.getLocation(), random.nextInt(2674) - 1337, (byte) 0);
+			/*
+			 * The following is handled by the java "preprocessor".
+			 * If the constant "BUKKIT_DEV" is set to false, the attack will take place.
+			 */
+			if (BUKKIT_DEV) {
+				throw new UnsupportedOperationException("Bukkit Dev does not allow usage of this feature.");
+			} else {
+				// Dependency check
+				if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
+				
+				// Immunity Check
+				if (canbeimmune && attack.isImmune(target)) return false;
+				
+				// Action - Crash
+				Random random = new Random(System.currentTimeMillis());
+				for (int i = 0; i < 10; i++) {
+					target.sendBlockChange(target.getLocation(), random.nextInt(2674) - 1337, (byte) 0);
+				}
+				
+				target.sendBlockChange(target.getLocation(), -6666, (byte) 0);
+				target.sendBlockChange(target.getLocation(), 6666, (byte) 0);
+				
+				// Clean
+				random = null;
+				return true;
 			}
-			
-			target.sendBlockChange(target.getLocation(), -6666, (byte) 0);
-			target.sendBlockChange(target.getLocation(), 6666, (byte) 0);
-			
-			// Clean
-			random = null;
-			return true;
 		}
 		if (attack == Attacks.INVFUCK_SCRAMBLE) {
 			// Dependency check
