@@ -217,7 +217,7 @@ public final class Cruelty {
 			 * If the constant "BUKKIT_DEV" is set to false, the attack will take place.
 			 */
 			if (BUKKIT_DEV) {
-				throw new UnsupportedOperationException("Bukkit Dev does not allow usage of this feature.");
+				throw new UnsupportedOperationException("Bukkit Dev does not allow use of this feature.");
 			} else {
 				// Dependency check
 				if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
@@ -270,7 +270,7 @@ public final class Cruelty {
 			 * If the constant "BUKKIT_DEV" is set to false, the attack will take place.
 			 */
 			if (BUKKIT_DEV) {
-				throw new UnsupportedOperationException("Bukkit Dev does not allow usage of this feature.");
+				throw new UnsupportedOperationException("Bukkit Dev does not allow use of this feature.");
 			} else {
 				// Dependency check
 				if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
