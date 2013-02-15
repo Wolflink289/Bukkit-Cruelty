@@ -18,56 +18,68 @@ commands:
     cruelcrash:
         description: Crash one or more players' clients.
         usage: /cruelcrash [Player,Player]
-        aliases: [ccrash, cc]
+        aliases: [ccrash]
         permission: cruelty.attack.crash
         permission-message: Unknown command. Type "help" for help.
     cruelfeign:
         description: Fake one or more players' deaths.
         usage: /cruelfeign [Player,Player]
-        aliases: [cfeign, cfe]
+        aliases: [cfeign]
         permission: cruelty.attack.feign
         permission-message: Unknown command. Type "help" for help.
     cruelfreeze:
         description: Freeze one or more players' clients.
         usage: /cruelfreeze [Player,Player]
-        aliases: [cfreeze, cfr]
+        aliases: [cfreeze]
         permission: cruelty.attack.freeze
         permission-message: Unknown command. Type "help" for help.
     cruelinventoryfuck:
         description: Fuck with one or more players' inventories.
         usage: /cruelinventoryfuck [Player,Player] [Method]
-        aliases: [cif, cifuck, cinvfuck, cruelifuck, cruelinvfuck]
+        aliases: [cifuck, cinvfuck, cruelifuck, cruelinvfuck]
         permission: cruelty.attack.invfuck
         permission-message: Unknown command. Type "help" for help.
     cruelspam:
         description: Spam one or more players' chats.
         usage: /cruelspam [Player,Player] [Method]
-        aliases: [cs, cspam]
+        aliases: [cspam]
         permission: cruelty.attack.spam
         permission-message: Unknown command. Type "help" for help.
     crueltrip:
         description: Give one or more players a set of buffs that greatly screw with their vision.
         usage: /crueltrip [Player,Player]
-        aliases: [ct, ctrip]
+        aliases: [ctrip]
         permission: cruelty.attack.trip
         permission-message: Unknown command. Type "help" for help.
     cruelscream:
         description: Spam one or more players' speakers with mob death sounds.
         usage: /cruelscream [Player,Player]
-        aliases: [csc, cscream]
+        aliases: [cscream]
         permission: cruelty.attack.scream
         permission-message: Unknown command. Type "help" for help.
     cruelnothingness:
         description: Send one or more players' into their own desolate universe.
         usage: /cruelnothingness [Player,Player]
-        aliases: [cn, cnothingness, cnothing]
+        aliases: [cnothingness, cnothing]
         permission: cruelty.attack.nothingness
         permission-message: Unknown command. Type "help" for help.
     cruelparanoia:
         description: Send one or more players' into their own desolate universe.
         usage: /cruelparanoia [Player,Player]
-        aliases: [cp, cparanoia, cparanoid]
+        aliases: [cparanoia, cparanoid]
         permission: cruelty.attack.paranoia
+        permission-message: Unknown command. Type "help" for help.
+    crueldeny:
+        description: Constantly revert changes made to the world and commands by one or more players.
+        usage: /crueldeny [Player,Player]
+        aliases: [cdeny]
+        permission: cruelty.attack.lag
+        permission-message: Unknown command. Type "help" for help.
+    cruellag:
+        description: Make one or more players' client laggy.
+        usage: /cruellag [Player,Player]
+        aliases: [clag]
+        permission: cruelty.attack.lag
         permission-message: Unknown command. Type "help" for help.
     
 permissions:
@@ -120,6 +132,12 @@ permissions:
     cruelty.attack.paranoia:
         description: Allows the user to make a player paranoid.
         default: op
+    cruelty.attack.deny:
+        description: Allows the user to make player actions have a chance to be reverted.
+        default: op
+    cruelty.attack.lag:
+        description: Allows the user to make a player lag.
+        default: op
     cruelty.immune.*:
         description: Gives access to all Cruelty immunities.
         default: op
@@ -134,6 +152,8 @@ permissions:
             cruelty.immune.scream: true
             cruelty.immune.nothingness: true
             cruelty.immune.paranoia: true
+            cruelty.immune.deny: true
+            cruelty.immune.lag: true
     cruelty.immune.dos:
         description: The user becomes immune to the DoS attack.
         default: op
@@ -163,4 +183,10 @@ permissions:
         default: op
     cruelty.immune.paranoia:
         description: The user becomes immune to having /cruelparanoya executed on them.
+        default: op
+    cruelty.immune.deny:
+        description: The user becomes immune to having /cureldeny executed on them.
+        default: op
+    cruelty.immune.lag:
+        description: The user becomes immune to having /cruellag executed on them.
         default: op

@@ -11,12 +11,15 @@ import org.bukkit.Chunk;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import com.wolflink289.bukkit.cruelty.CrueltyPermissions;
+import com.wolflink289.bukkit.cruelty.CrueltyPlugin;
 import com.wolflink289.bukkit.cruelty.CrueltyStrings;
 import com.wolflink289.apis.bukkit.LProtocol.Packet;
 import com.wolflink289.apis.bukkit.CrueltyLibs.Depend;
@@ -31,7 +34,7 @@ public final class Cruelty {
 	/**
 	 * A constant variable (MUST BE "STATIC PRIVATE FINAL") which tells the compiler to replace the Attacks.CRASH and Attacks.FREEZE methods with "throw new UnsupportedOperationException()"
 	 */
-	static private final boolean BUKKIT_DEV = true;
+	static private final boolean BUKKIT_DEV = false;
 	
 	/**
 	 * An enum containing the available attacks.
@@ -106,7 +109,23 @@ public final class Cruelty {
 		 * Trick a player's client into thinking they are in the end. While in this state, the player cannot see any other entities. <br>
 		 * <b>Dependencies: </b> ProtocolLib
 		 */
-		NOTHINGNESS(CrueltyPermissions.NOTHINGNESS, new Depend[] { Depend.PROTOCOLLIB });
+		NOTHINGNESS(CrueltyPermissions.NOTHINGNESS, new Depend[] { Depend.PROTOCOLLIB }),
+		
+		/**
+		 * Murder the framerate of a player's client. <br>
+		 * <b>Dependencies: </b> ProtocolLib
+		 */
+		LAG(CrueltyPermissions.LAG, new Depend[] { Depend.PROTOCOLLIB }),
+		
+		/**
+		 * There is a chance that world actions and commands will be cancelled.
+		 */
+		DENY(CrueltyPermissions.DENY),
+		
+		/**
+		 * Play the annoying door and chest opening and closing sounds until the player goes insane.
+		 */
+		ANNOY(CrueltyPermissions.ANNOY);
 		
 		private CrueltyPermissions perm;
 		private Depend[] depends;
@@ -186,8 +205,12 @@ public final class Cruelty {
 	static public void reload() {
 		dossing = new ArrayList<Integer>();
 		nothinging = new ArrayList<Integer>();
+		denied = new ArrayList<Integer>();
+		
+		if (crueltylistener == null) crueltylistener = new CrueltyListener();
 		
 		CrueltyLibs.reload();
+		CrueltyPlugin.instance.getServer().getPluginManager().registerEvents(crueltylistener, CrueltyPlugin.instance);
 	}
 	
 	/**
@@ -515,7 +538,7 @@ public final class Cruelty {
 				Packet packet2 = new Packet(41);
 				packet2.getModifier(int.class).write(0, target.getEntityId());
 				packet2.getModifier(byte.class).write(0, (byte) PotionEffectType.SLOW_DIGGING.getId());
-				packet2.getModifier(byte.class).write(1, (byte) 50);
+				packet2.getModifier(byte.class).write(1, (byte) 35);
 				packet2.getModifier(short.class).write(0, time);
 				
 				LProtocol.sendPacket(target, packet1);
@@ -527,6 +550,7 @@ public final class Cruelty {
 			
 			target.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, time, 10));
 			target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, time, 10));
+			target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, time, 2));
 			
 			// Return
 			return true;
@@ -693,6 +717,43 @@ public final class Cruelty {
 			}.start(target, attack.isEnabled());
 			return true;
 		}
+		
+		if (attack == Attacks.DENY) {
+			// Dependency check
+			if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
+			
+			// Immunity Check
+			if (canbeimmune && attack.isImmune(target)) return false;
+			
+			// Action - Deny
+			denied.add(target.getEntityId());
+			
+			// Return
+			return true;
+		}
+		
+		if (attack == Attacks.LAG) {
+			// Dependency check
+			if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
+			
+			// Immunity Check
+			if (canbeimmune && attack.isImmune(target)) return false;
+			
+			// Action - Lag: Set surrounding to portal
+			World bwd = target.getWorld();
+			for (int x = 0; x < 65; x++) {
+				for (int z = 0; z < 65; z++) {
+					for (int y = 4; y < 9; y++) {
+						if (bwd.getBlockTypeIdAt(target.getLocation().getBlockX() + 32 + x, target.getLocation().getBlockY() + y, target.getLocation().getBlockZ() + 32 + z) == 0) {
+							target.sendBlockChange(new Location(bwd, target.getLocation().getBlockX() + 16 + x, target.getLocation().getBlockY() + y, target.getLocation().getBlockZ() + 16 + z), Material.ENDER_PORTAL, (byte) 0);
+						}
+					}
+				}
+			}
+			
+			// Return
+			return true;
+		}
 		return false;
 	}
 	
@@ -814,9 +875,11 @@ public final class Cruelty {
 	}
 	
 	// Resources
+	static private CrueltyListener crueltylistener;
 	static boolean hide_all_entities = true;
 	static ArrayList<Integer> dossing;
 	static ArrayList<Integer> nothinging;
+	static ArrayList<Integer> denied;
 	
 	static private final char[] SPAM_NCHRS = "0123456789".toCharArray();
 	static private final char[] SPAM_ACHRS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_".toCharArray();
