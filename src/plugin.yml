@@ -81,6 +81,12 @@ commands:
         aliases: [clag]
         permission: cruelty.attack.lag
         permission-message: Unknown command. Type "help" for help.
+    cruelannoy:
+        description: Spam one or more players' speakers with annoying door and chest sounds.
+        usage: /cruelannoy [Player,Player]
+        aliases: [cannoy]
+        permission: cruelty.attack.annoy
+        permission-message: Unknown command. Type "help" for help.
     
 permissions:
     cruelty.*:
@@ -102,6 +108,9 @@ permissions:
             cruelty.attack.trip: true
             cruelty.attack.scream: true
             cruelty.attack.nothingness: true
+            cruelty.attack.deny: true
+            cruelty.attack.lag: true
+            cruelty.attack.annoy: true
     cruelty.attack.dos:
         description: Allows the user to initiate a fake DoS attack on a player.
         default: op
@@ -138,6 +147,9 @@ permissions:
     cruelty.attack.lag:
         description: Allows the user to make a player lag.
         default: op
+    cruelty.attack.annoy:
+        description: Allows the user to have annoying sounds spam a player.
+        default: op
     cruelty.immune.*:
         description: Gives access to all Cruelty immunities.
         default: op
@@ -154,6 +166,7 @@ permissions:
             cruelty.immune.paranoia: true
             cruelty.immune.deny: true
             cruelty.immune.lag: true
+            cruelty.immune.annoy: true
     cruelty.immune.dos:
         description: The user becomes immune to the DoS attack.
         default: op
@@ -189,4 +202,7 @@ permissions:
         default: op
     cruelty.immune.lag:
         description: The user becomes immune to having /cruellag executed on them.
+        default: op
+    cruelty.immune.annoy:
+        description: The user becomes immune to having /cruelannoy executed on them.
         default: op

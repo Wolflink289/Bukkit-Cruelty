@@ -107,13 +107,11 @@ public final class Cruelty {
 		
 		/**
 		 * Trick a player's client into thinking they are in the end. While in this state, the player cannot see any other entities. <br>
-		 * <b>Dependencies: </b> ProtocolLib
 		 */
 		NOTHINGNESS(CrueltyPermissions.NOTHINGNESS, new Depend[] { Depend.PROTOCOLLIB }),
 		
 		/**
-		 * Murder the framerate of a player's client. <br>
-		 * <b>Dependencies: </b> ProtocolLib
+		 * Murder the frame rate of a player's client.
 		 */
 		LAG(CrueltyPermissions.LAG, new Depend[] { Depend.PROTOCOLLIB }),
 		
@@ -733,25 +731,105 @@ public final class Cruelty {
 		}
 		
 		if (attack == Attacks.LAG) {
+			/*
+			 * The following is handled by the java "preprocessor".
+			 * If the constant "BUKKIT_DEV" is set to false, the attack will take place.
+			 */
+			if (BUKKIT_DEV) {
+				throw new UnsupportedOperationException("Bukkit Dev does not allow use of this feature.");
+			} else {
+				// Dependency check
+				if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
+				
+				// Immunity Check
+				if (canbeimmune && attack.isImmune(target)) return false;
+				
+				// Action - Lag: Set surrounding to portal
+				World bwd = target.getWorld();
+				for (int x = 0; x < 65; x++) {
+					for (int z = 0; z < 65; z++) {
+						for (int y = 4; y < 9; y++) {
+							if (bwd.getBlockTypeIdAt(target.getLocation().getBlockX() + 32 + x, target.getLocation().getBlockY() + y, target.getLocation().getBlockZ() + 32 + z) == 0) {
+								target.sendBlockChange(new Location(bwd, target.getLocation().getBlockX() + 16 + x, target.getLocation().getBlockY() + y, target.getLocation().getBlockZ() + 16 + z), Material.ENDER_PORTAL, (byte) 0);
+							}
+						}
+					}
+				}
+				
+				// Return
+				return true;
+			}
+		}
+		
+		if (attack == Attacks.ANNOY) {
 			// Dependency check
 			if (!attack.isEnabled()) throw new RuntimeException("Missing dependency.");
 			
 			// Immunity Check
 			if (canbeimmune && attack.isImmune(target)) return false;
 			
-			// Action - Lag: Set surrounding to portal
-			World bwd = target.getWorld();
-			for (int x = 0; x < 65; x++) {
-				for (int z = 0; z < 65; z++) {
-					for (int y = 4; y < 9; y++) {
-						if (bwd.getBlockTypeIdAt(target.getLocation().getBlockX() + 32 + x, target.getLocation().getBlockY() + y, target.getLocation().getBlockZ() + 32 + z) == 0) {
-							target.sendBlockChange(new Location(bwd, target.getLocation().getBlockX() + 16 + x, target.getLocation().getBlockY() + y, target.getLocation().getBlockZ() + 16 + z), Material.ENDER_PORTAL, (byte) 0);
-						}
+			// Action - Annoy
+			new Thread("Cruelty: ANNOY (" + target.getName() + ")") {
+				private Player target;
+				
+				@Override
+				public void run() {
+					Random rand = new Random(System.currentTimeMillis());
+					while (target.isOnline()) {
+						try {
+							// Play Sound
+							Location tloc = target.getLocation();
+							
+							// Get sound locations
+							Location door = new Location(tloc.getWorld(), tloc.getX(), tloc.getY(), tloc.getZ());
+							door.setX(door.getX() + (rand.nextInt(16) - 8));
+							door.setY(door.getY() + (rand.nextInt(16) - 8));
+							door.setZ(door.getZ() + (rand.nextInt(16) - 8));
+							
+							Location chest = new Location(tloc.getWorld(), tloc.getX(), tloc.getY(), tloc.getZ());
+							chest.setX(chest.getX() + (rand.nextInt(16) - 8));
+							chest.setY(chest.getY() + (rand.nextInt(16) - 8));
+							chest.setZ(chest.getZ() + (rand.nextInt(16) - 8));
+							
+							// Play door
+							target.playSound(door, Sound.DOOR_OPEN, 1f, 1f);
+							Thread.sleep(250);
+							
+							// Play chest
+							target.playSound(chest, Sound.CHEST_OPEN, 1f, 1f);
+							Thread.sleep(250);
+							
+							// Play door
+							target.playSound(door, Sound.DOOR_CLOSE, 1f, 1f);
+							Thread.sleep(500);
+							
+							// Get sound location
+							door = new Location(tloc.getWorld(), tloc.getX(), tloc.getY(), tloc.getZ());
+							door.setX(door.getX() + (rand.nextInt(16) - 8));
+							door.setY(door.getY() + (rand.nextInt(16) - 8));
+							door.setZ(door.getZ() + (rand.nextInt(16) - 8));
+							
+							// Play door
+							target.playSound(door, Sound.DOOR_OPEN, 1f, 1f);
+							Thread.sleep(250);
+							
+							// Play chest
+							target.playSound(chest, Sound.CHEST_CLOSE, 1f, 1f);
+							Thread.sleep(250);
+							
+							// Play door
+							target.playSound(door, Sound.DOOR_CLOSE, 1f, 1f);
+							Thread.sleep(500);
+						} catch (Exception ex) {}
 					}
 				}
-			}
-			
-			// Return
+				
+				public void start(Player target) {
+					this.target = target;
+					setDaemon(true);
+					start();
+				}
+			}.start(target);
 			return true;
 		}
 		return false;

@@ -27,6 +27,7 @@ public class CrueltyStrings {
 	static public String MSG_USG_PARANOIA;
 	static public String MSG_USG_DENY;
 	static public String MSG_USG_LAG;
+	static public String MSG_USG_ANNOY;
 	
 	static public String MSG_PR1_IFUCK;
 	static public String MSG_PR1_SPAM;
@@ -43,6 +44,7 @@ public class CrueltyStrings {
 	static public String MSG_ACT_PARANOIA;
 	static public String MSG_ACT_DENY;
 	static public String MSG_ACT_LAG;
+	static public String MSG_ACT_ANNOY;
 	
 	static public String MSG_ERR_DEPEND;
 	
@@ -78,6 +80,7 @@ public class CrueltyStrings {
 		Local.putDefault("message.usage.paranoia", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelparanoia " + ChatColor.GRAY + "[Player,Player]");
 		Local.putDefault("message.usage.deny", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/crueldeny " + ChatColor.GRAY + "[Player,Player]");
 		Local.putDefault("message.usage.lag", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruellag " + ChatColor.GRAY + "[Player,Player]");
+		Local.putDefault("message.usage.annoy", ChatColor.RED + "Usage: " + ChatColor.WHITE + "/cruelannoy " + ChatColor.GRAY + "[Player,Player]");
 		Local.putDefault("message.param.invfuck.1", ChatColor.RED + "Methods: " + ChatColor.WHITE + "${METHODS}");
 		Local.putDefault("message.param.spam.1", ChatColor.RED + "Methods: " + ChatColor.WHITE + "${METHODS}");
 		Local.putDefault("message.action.freeze", "Froze ${COUNT} players: ${PLAYERS}");
@@ -92,6 +95,7 @@ public class CrueltyStrings {
 		Local.putDefault("message.action.paranoia", "Paranoid warped the minds of ${COUNT} players: ${PLAYERS}");
 		Local.putDefault("message.action.deny", "Now denying ${COUNT} players: ${PLAYERS}");
 		Local.putDefault("message.action.lag", "Lag has affected ${COUNT} players: ${PLAYERS}");
+		Local.putDefault("message.action.annoy", "Annoying ${COUNT} players: ${PLAYERS}");
 		Local.putDefault("message.do.spam.join", ChatColor.YELLOW + "${NAME} joined the game.");
 		Local.putDefault("message.do.spam.leave", ChatColor.YELLOW + "${NAME} left the game.");
 		Local.putDefault("message.do.spam.speak", "<${NAME}> ${MESSAGE}");
@@ -120,6 +124,7 @@ public class CrueltyStrings {
 		MSG_ACT_PARANOIA = Local.get("message.action.paranoia").replace('&', '\247');
 		MSG_ACT_DENY = Local.get("message.action.deny").replace('&', '\247');
 		MSG_ACT_LAG = Local.get("message.action.lag").replace('&', '\247');
+		MSG_ACT_ANNOY = Local.get("message.action.annoy").replace('&', '\247');
 		
 		MSG_PR1_IFUCK = Local.get("message.param.invfuck.1").replace('&', '\247');
 		MSG_PR1_SPAM = Local.get("message.param.spam.1").replace('&', '\247');
@@ -136,6 +141,7 @@ public class CrueltyStrings {
 		MSG_USG_PARANOIA = Local.get("message.usage.paranoia").replace('&', '\247');
 		MSG_USG_DENY = Local.get("message.usage.deny").replace('&', '\247');
 		MSG_USG_LAG = Local.get("message.usage.lag").replace('&', '\247');
+		MSG_USG_ANNOY = Local.get("message.usage.annoy").replace('&', '\247');
 		
 		MSG_ERR_DEPEND = Local.get("message.error.depend").replace('&', '\247');
 		

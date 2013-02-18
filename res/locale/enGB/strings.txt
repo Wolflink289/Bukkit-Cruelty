@@ -31,6 +31,7 @@ message.action.nothingness: Nothingness enveloped ${COUNT} players: ${PLAYERS}
 message.action.paranoia: Paranoia warped the minds of ${COUNT} players: ${PLAYERS}
 message.action.deny: Now denying ${COUNT} players: ${PLAYERS}
 message.action.lag: Lag has affected ${COUNT} players: ${PLAYERS}
+message.action.annoy: Annoying ${COUNT} players: ${PLAYERS}
 
 message.param.invfuck.1: &cMethods: &f${METHODS}
 message.param.spam.1: &cMethods: &f${METHODS}
@@ -47,6 +48,7 @@ message.usage.nothingness: &cUsage: &f/cruelnothingness &7[Player,Player]
 message.usage.paranoia: &cUsage: &f/cruelparanoia &7[Player,Player]
 message.usage.deny: &cUsage: &f/crueldeny &7[Player,Player]
 message.usage.lag: &cUsage: &f/cruellag &7[Player,Player]
+message.usage.annoy: &cUsage: &f/cruelannoy &7[Player,Player]
 
 message.do.spam.join: &e${NAME} joined the game.
 message.do.spam.leave: &e${NAME} left the game.
