@@ -268,6 +268,7 @@ class LProtocol {
 	static public Class<?> getCraftbukkitClass(String name) {
 		try {
 			// Special Cases
+			if (name.equals("inventory.CraftItemStack")) return MinecraftReflection.getCraftItemStackClass();
 			if (name.equals("entity.CraftPlayer")) return MinecraftReflection.getCraftPlayerClass();
 			
 			// Get

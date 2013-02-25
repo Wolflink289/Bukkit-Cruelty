@@ -16,6 +16,7 @@ import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import com.wolflink289.bukkit.cruelty.CrueltyPermissions;
@@ -605,11 +606,19 @@ public final class Cruelty {
 				packet5.getModifier(int.class).write(0, target.getHealth()).write(1, target.getFoodLevel());
 				packet5.getModifier(float.class).write(0, target.getSaturation());
 				
+				Packet packet6 = new Packet(43);
+				packet6.getModifier(int.class).write(0, (int) target.getExp()).write(1, target.getLevel());
+				packet6.getModifier(float.class).write(0, target.getExp());
+				
 				// Send Packets
 				LProtocol.sendPacket(target, packet1);
 				LProtocol.sendPacket(target, packet2);
 				LProtocol.sendPacket(target, packet3);
 				LProtocol.sendPacket(target, packet5);
+				LProtocol.sendPacket(target, packet6);
+				
+				// Resend Inventory
+				resendInventory(target);
 				
 				// Resend Chunks
 				Chunk[][] send = new Chunk[33][33];
@@ -856,12 +865,20 @@ public final class Cruelty {
 			Packet packet5 = new Packet(8);
 			packet5.getModifier(int.class).write(0, target.getHealth()).write(1, target.getFoodLevel());
 			packet5.getModifier(float.class).write(0, target.getSaturation());
+
+			Packet packet6 = new Packet(43);
+			packet6.getModifier(int.class).write(0, (int) target.getExp()).write(1, target.getLevel());
+			packet6.getModifier(float.class).write(0, target.getExp());
 			
 			// Send Packets
 			LProtocol.sendPacket(target, packet1);
 			LProtocol.sendPacket(target, packet2);
 			LProtocol.sendPacket(target, packet3);
 			LProtocol.sendPacket(target, packet5);
+			LProtocol.sendPacket(target, packet6);
+			
+			// Resend Inventory
+			resendInventory(target);
 			
 			// Resend Chunks
 			Chunk[][] send = new Chunk[33][33];
@@ -916,6 +933,63 @@ public final class Cruelty {
 			packet3 = null;
 			packet4 = null;
 		} catch (Exception ex) {}
+	}
+	
+	static private final void resendInventory(Player target) {
+		try {
+			target.closeInventory();
+			PlayerInventory i = target.getInventory();
+			
+			// Prepare reflection
+			Class<?> class_CraftPlayer = LProtocol.getCraftbukkitClass("entity.CraftPlayer");
+			Class<?> class_CraftItemStack = LProtocol.getCraftbukkitClass("inventory.CraftItemStack");
+			Class<?> class_Packet103SetSlot = LProtocol.getMinecraftClass("Packet103SetSlot");
+			Class<?> class_PlayerConnection = LProtocol.getMinecraftClass("PlayerConnection");
+			Class<?> class_ItemStack = LProtocol.getMinecraftClass("ItemStack");
+			Class<?> class_Packet = LProtocol.getMinecraftClass("Packet");
+			Class<?> class_EntityPlayer = LProtocol.getMinecraftClass("EntityPlayer");
+			
+			Method methd_getHandle = class_CraftPlayer.getMethod("getHandle");
+			Method methd_asNMSCopy = class_CraftItemStack.getMethod("asNMSCopy", ItemStack.class);
+			Method methd_sendPacket = class_PlayerConnection.getMethod("sendPacket", class_Packet);
+			
+			Constructor<?> const_Packet103SetSlot = class_Packet103SetSlot.getConstructor(int.class, int.class, class_ItemStack);
+			
+			Field field_playerConnection = class_EntityPlayer.getField("playerConnection");
+			
+			// Prepare
+			Object playerConnection = field_playerConnection.get(methd_getHandle.invoke(target));
+			
+			// Main
+			for (int j = 0; j < i.getSize(); j++) {
+				ItemStack it = i.getItem(j);
+				if (it == null) continue;
+				
+				Object ist = methd_asNMSCopy.invoke(null, it);
+				Object pak;
+				if (j < 9) {
+					pak = const_Packet103SetSlot.newInstance(0, j + 36, ist);
+				} else {
+					pak = const_Packet103SetSlot.newInstance(0, j, ist);
+				}
+				
+				methd_sendPacket.invoke(playerConnection, pak);
+			}
+			
+			// Armor
+			ItemStack[] a = i.getArmorContents();
+			for (int j = 0; j < a.length; j++) {
+				ItemStack it = a[a.length - 1 - j];
+				if (it == null) continue;
+
+				Object ist = methd_asNMSCopy.invoke(null, it);
+				Object pak = const_Packet103SetSlot.newInstance(0, j + 5, ist);
+				
+				methd_sendPacket.invoke(playerConnection, pak);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
