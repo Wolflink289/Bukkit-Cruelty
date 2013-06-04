@@ -1,0 +1,64 @@
+###########################
+# Locale File             #
+# Language: French        #
+# Region: France          #
+###########################
+
+# Locale Information
+locale.language: French
+locale.region: France
+locale.code: frFR
+
+###########################
+
+# Error Messages #
+error.denied: ${HIDDEN}
+error.save: Fichier n'as pas pu être sauvé:
+
+# Regular Messages #
+message.enabled: Cruauté activé.
+message.disabled: Cruauté désactivé.
+
+message.action.freeze: Gelé ${COUNT} joueurs: ${PLAYERS}
+message.action.feign: Feigné ${COUNT} joueurs: ${PLAYERS}
+message.action.crash: Crashé ${COUNT} joueurs: ${PLAYERS}
+message.action.invfuck: Fucked with ${COUNT} inventoires: ${PLAYERS}
+message.action.spam: Spammé ${COUNT} joueurs: ${PLAYERS}
+message.action.dos: Dos'é ${COUNT} joueurs: ${PLAYERS}
+message.action.trip: Donné de l'LSD à ${COUNT} joueurs: ${PLAYERS}
+message.action.scream: Crié à ${COUNT} joueurs: ${PLAYERS}
+message.action.nothingness: Du rien à envelopé ${COUNT} joueurs: ${PLAYERS}
+message.action.paranoia: La paranoia à crée de la pagaille dans la tète de ${COUNT} joueurs: ${PLAYERS}
+message.action.deny: En train de stopper ${COUNT} joueurs: ${PLAYERS}
+message.action.lag: Le retard à affecté ${COUNT} joueurs: ${PLAYERS}
+message.action.annoy: En train d'agacer ${COUNT} joueurs: ${PLAYERS}
+
+message.param.invfuck.1: &cMethodes: &f${METHODS}
+message.param.spam.1: &cMethodes: &f${METHODS}
+
+message.usage.freeze: &cUsage: &f/cruelfreeze &7[Joueur,Joueur]
+message.usage.feign: &cUsage: &f/cruelfeign &7[Joueur,Joueur]
+message.usage.crash: &cUsage: &f/cruelcrash &7[Joueur,Joueur]
+message.usage.invfuck: &cUsage: &f/cruelinvfuck &7[Joueur,Joueur] [Methode]
+message.usage.spam: &cUsage: &f/cruelspam &7[Joueur,Joueur] [Methode]
+message.usage.trip: &cUsage: &f/crueltrip &7[Joueur,Joueur] [Methode]
+message.usage.dos: &cUsage: &f/crueldos &7[Joueur,Joueur]
+message.usage.scream: &cUsage: &f/cruelscream &7[Joueur,Joueur]
+message.usage.nothingness: &cUsage: &f/cruelnothingness &7[Joueur,Joueur]
+message.usage.paranoia: &cUsage: &f/cruelparanoia &7[Joueur,Joueur]
+message.usage.deny: &cUsage: &f/crueldeny &7[Joueur,Joueur]
+message.usage.lag: &cUsage: &f/cruellag &7[Joueur,Joueur]
+message.usage.annoy: &cUsage: &f/cruelannoy &7[Joueur,Joueur]
+
+message.do.spam.join: &e${NAME} à joigné le jeu.
+message.do.spam.leave: &e${NAME} est parti du jeu.
+message.do.spam.speak: <${NAME}> ${MESSAGE}
+
+message.error.depend: &cError: one or more missing dependencies.
+
+# Prefix Messages #
+prefix.attack.success: &a
+prefix.attack.immune: &4
+prefix.attack.not-found: &c
+
+prefix.message: &6
