@@ -1,0 +1,21 @@
+###########################
+# Setup Locale File       #
+# Language: French        #
+# Region: French          #
+###########################
+
+# Locale Information
+locale.language: French
+locale.region: France
+locale.code: frFR
+
+###########################
+
+# Windows #
+win.locale.title: Choisisez Language
+win.locale.button.next: Utilisez Language
+
+# Errors #
+error.title.normal: Erreur
+errot.title.fatal: Erreure Fatale
+error.message.save: Fichier n'as pas pu être sauvé: 
